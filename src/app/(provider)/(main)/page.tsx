@@ -1,10 +1,15 @@
 "use client";
+import { getTest } from "@/axios/axios.test";
 import { useQuery } from "@tanstack/react-query";
 
+type DataType = {
+  title: string;
+};
+
 const MainPage = () => {
-  const { data, isPending, isError } = useQuery({
+  const { data, isPending, isError } = useQuery<DataType>({
     queryKey: ["test"],
-    queryFn: () => fetch("https://koreanjson.com/posts/1").then((response) => response.json())
+    queryFn: () => getTest()
   });
 
   if (isPending) return <>pending</>;
