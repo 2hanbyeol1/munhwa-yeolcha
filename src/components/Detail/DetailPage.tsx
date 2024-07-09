@@ -52,13 +52,6 @@ const DetailPage = () => {
           </div>
           <div className="mt-7 text-center">
             <Button
-              buttonName={"예약하기"}
-              buttonWidth={"w-2/4"}
-              paddingY={"py-3"}
-              marginY={"my-0"}
-              onClick={handleReserve}
-            />
-            <Button
               buttonName={"뒤로가기"}
               buttonWidth={"w-2/5"}
               bgColor={"bg-[#FFFFFF]"}
@@ -67,6 +60,13 @@ const DetailPage = () => {
               marginY={"my-0"}
               onClick={handleGoBack}
             ></Button>
+            <Button
+              buttonName={"예약하기"}
+              buttonWidth={"w-2/4"}
+              paddingY={"py-3"}
+              marginY={"my-0"}
+              onClick={handleReserve}
+            />
           </div>
         </div>
       </div>

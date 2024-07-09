@@ -1,6 +1,6 @@
 import DetailPage from "@/components/Detail/DetailPage";
 
-const page = () => {
+const Page = () => {
   return (
     <>
       <DetailPage />
@@ -8,4 +8,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
