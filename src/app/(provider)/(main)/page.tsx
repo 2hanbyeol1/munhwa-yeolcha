@@ -31,7 +31,7 @@ const MainPage = () => {
       <button onClick={decrement}>[ - ]</button>
       <br />
       <form>
-        <Input inputValue={title} setInputValue={setTitle} placeholder={"ID"} />
+        <Input type={"e-mail"} inputValue={title} setInputValue={setTitle} placeholder={"ID"} />
       </form>
     </main>
   );
