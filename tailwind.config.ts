@@ -15,6 +15,9 @@ const config: Config = {
       "withered-diamond": "#76939E",
       white: "#FFFFFF"
     },
+    boxShadow: {
+      detail: "inset 0 0 5px"
+    },
     extend: {}
   },
   plugins: []
