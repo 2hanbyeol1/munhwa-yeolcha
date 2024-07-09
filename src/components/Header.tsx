@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Button from "./Button";
 
@@ -15,12 +16,27 @@ const Header = () => {
   };
 
   return (
-    <header className="flex-col">
+    <header className="fixed top-0 left-0 flex-col w-full z-10">
       <div className="w-full h-14 flex justify-between items-center bg-dark-red px-4 py-2 mb-0">
-        <img className="h-full mr-4 cursor-pointer" src="/logo.png" alt="logo" onClick={handelGoHomeClick}></img>
+        <Image
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-24 h-auto cursor-pointer"
+          src="/logo.png"
+          alt="logo"
+          onClick={handelGoHomeClick}
+        />
         <Button buttonName={"접속하기"} onClick={handleLoginClick} />
       </div>
-      <img className="bg-beige" src="/headerDeco.png" alt="headerDeco" />
+      <Image
+        width={0}
+        height={0}
+        sizes="100vw"
+        className="w-full h-auto cursor-pointer"
+        src="/headerDeco.png"
+        alt="headerDeco"
+      />
     </header>
   );
 };

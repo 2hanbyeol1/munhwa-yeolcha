@@ -7,17 +7,24 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
-    colors: {
-      "dark-red": "#973931",
-      coral: "#E5514F",
-      beige: "#F0DCC6",
-      green: "#1A764F",
-      "withered-diamond": "#76939E",
-      white: "#FFFFFF",
-      transparent: "transparent",
-      black: "#000000"
-    },
-    extend: {}
+    extend: {
+      aspectRatio: {
+        poster: "9 / 12"
+      },
+      colors: {
+        "dark-red": "#973931",
+        coral: "#E5514F",
+        beige: "#F0DCC6",
+        green: "#1A764F",
+        "withered-diamond": "#76939E",
+        "withered-diamond-translucent": "#76939EDD",
+        "hover-green": "#2BD58D",
+        white: "#FFFFFF",
+        yellow: "#FFC700",
+        transparent: "transparent",
+        black: "#000000"
+      }
+    }
   },
   plugins: []
 };
