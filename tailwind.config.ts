@@ -13,7 +13,11 @@ const config: Config = {
       beige: "#F0DCC6",
       green: "#1A764F",
       "withered-diamond": "#76939E",
-      white: "#FFFFFF"
+      "hover-green": "#2BD58D",
+      white: "#FFFFFF",
+      yellow: "#FFC700",
+      transparent: "transparent",
+      black: "#000000"
     },
     boxShadow: {
       detail: "inset 0 0 5px"
