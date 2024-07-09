@@ -14,7 +14,11 @@ const config: Config = {
       green: "#1A764F",
       "withered-diamond": "#76939E"
     },
-    extend: {}
+    extend: {
+      aspectRatio: {
+        poster: "9 / 12"
+      }
+    }
   },
   plugins: []
 };

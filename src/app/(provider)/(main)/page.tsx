@@ -1,32 +1,32 @@
-"use client";
-import { getTest } from "@/axios/axios.test";
-import useCountStore from "@/zustand/count.store";
-import { useQuery } from "@tanstack/react-query";
-
-type DataType = {
-  title: string;
-};
+import Film from "@/components/Film";
+import Show from "@/components/Show";
 
 const MainPage = () => {
-  const { data, isPending, isError } = useQuery<DataType>({
-    queryKey: ["test"],
-    queryFn: () => getTest()
-  });
-
-  const { count, increment, decrement } = useCountStore();
-
-  if (isPending) return <>pending</>;
-  if (isError) return <>error</>;
-  console.log(data);
-
   return (
-    <main>
-      {data.title}
-      <hr />
-      <div>{count}</div>
-      <button onClick={increment}>[ + ]</button>
-      <button onClick={decrement}>[ - ]</button>
-    </main>
+    <>
+      <section className="w-full grid grid-cols-3">
+        <Film image="https://mir-s3-cdn-cf.behance.net/project_modules/hd/fdef9c31941083.566793886985a.png" />
+        <Film image="https://mir-s3-cdn-cf.behance.net/project_modules/hd/fdef9c31941083.566793886985a.png" />
+        <Film image="https://mir-s3-cdn-cf.behance.net/project_modules/hd/fdef9c31941083.566793886985a.png" />
+      </section>
+      <section className="mt-10 w-full grid grid-cols-4 gap-5">
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+        <Show image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s" />
+      </section>
+    </>
   );
 };
 
