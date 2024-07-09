@@ -4,17 +4,18 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
-    extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
+    colors: {
+      "dark-red": "#973931",
+      coral: "#25514F",
+      beige: "#F0DCC6",
+      green: "#1A764F",
+      "withered-diamond": "#76939E"
     },
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 };
 export default config;
