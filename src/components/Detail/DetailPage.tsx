@@ -1,10 +1,22 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
+import Button from "../Button";
+import { useRouter } from "next/navigation";
 
 const DetailPage = () => {
+  const router = useRouter();
+
+  const handleReserve = () => {
+    alert("예약되었습니다");
+  };
+  const handleGoBack = () => {
+    router.push("/");
+  };
+
   return (
     <>
-      <div className="flex mt-5">
+      <div className="flex pb-20">
         <Image src="/princess.webp" alt="" width={480} height={300} />
         <div className="flex flex-col justify-between ml-8">
           <div className="h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
@@ -38,11 +50,23 @@ const DetailPage = () => {
               </li>
             </ul>
           </div>
-          <div className="mt-7">
-            <button className="p-2 rounded-lg bg-coral text-white">예약하기</button>
-            <button className="p-2 rounded-lg bg-white text-coral ml-2">
-              <Link href="/">뒤로가기</Link>
-            </button>
+          <div className="mt-7 text-center">
+            <Button
+              buttonName={"예약하기"}
+              buttonWidth={"w-2/4"}
+              paddingY={"py-3"}
+              marginY={"my-0"}
+              onClick={handleReserve}
+            />
+            <Button
+              buttonName={"뒤로가기"}
+              buttonWidth={"w-2/5"}
+              bgColor={"bg-[#FFFFFF]"}
+              textColor={"text-[#1A764F]"}
+              paddingY={"py-3"}
+              marginY={"my-0"}
+              onClick={handleGoBack}
+            ></Button>
           </div>
         </div>
       </div>
