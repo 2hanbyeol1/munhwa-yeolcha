@@ -23,6 +23,9 @@ const config: Config = {
         yellow: "#FFC700",
         transparent: "transparent",
         black: "#000000"
+      },
+      boxShadow: {
+        detail: "inset 0 0 5px"
       }
     }
   },
