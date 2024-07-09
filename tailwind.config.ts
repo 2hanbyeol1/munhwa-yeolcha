@@ -15,7 +15,9 @@ const config: Config = {
       "withered-diamond": "#76939E",
       "hover-green": "#2BD58D",
       white: "#FFFFFF",
-      yellow: "#FFC700"
+      yellow: "#FFC700",
+      transparent: "transparent",
+      black: "#000000"
     },
     extend: {}
   },
