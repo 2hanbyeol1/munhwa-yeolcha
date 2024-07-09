@@ -9,10 +9,11 @@ const config: Config = {
   theme: {
     colors: {
       "dark-red": "#973931",
-      coral: "#25514F",
+      coral: "#E5514F",
       beige: "#F0DCC6",
       green: "#1A764F",
-      "withered-diamond": "#76939E"
+      "withered-diamond": "#76939E",
+      white: "#FFFFFF"
     },
     extend: {}
   },
