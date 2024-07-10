@@ -1,4 +1,3 @@
-import TicketList from "@/components/TicketList";
 import Image from "next/image";
 import React from "react";
 
@@ -7,11 +6,11 @@ const MyTicketingListPage = () => {
     <>
       {/* 여기 위에는 버튼 밑에는 전체 예약 내역*/}
       <span>
-        <div className="flex justify-between gap-5 pt-[10px] pb-[10px]">
+        <div className="flex justify-between gap-5 py-[10px]">
           <span className="flex justify-center items-center w-[200px] h-[50px] rounded-lg font-bold text-green text-[30px]">
             전체 예약 내역
           </span>
-          <select className="border rounded-md">
+          <select className="border rounded-md bg-white">
             <option>예약일 순</option>
             <option>공연 날짜 순</option>
           </select>
@@ -24,7 +23,7 @@ const MyTicketingListPage = () => {
             <div>
               <div>
                 <div>2024.07.01(월)</div>
-                <div className="text-[10px] text-[gray]">예약번호:D813VC4</div>
+                <div className="text-[10px] text-[gray]">예약번호:PF132236</div>
               </div>
               <div className="border w-[100px]">
                 <Image src={""} alt="웃는 남자" width={100} height={100} />
