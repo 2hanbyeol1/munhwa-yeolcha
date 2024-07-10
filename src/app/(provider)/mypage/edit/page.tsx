@@ -1,15 +1,10 @@
-import React from "react";
-import Link from "next/link";
 import EditProfileForm from "@/components/EditProfileForm";
-import TicketList from "@/components/TicketList";
+import React from "react";
 
 const Edit = () => {
   return (
-    <div className="min-h-screen flex  items-center bg-beige">
-      <div className="bg-beige p-6 rounded-md w-full flex">
-        <TicketList />
-        <EditProfileForm />
-      </div>
+    <div className="flex items-center h-[612px] w-[100%]">
+      <EditProfileForm />
     </div>
   );
 };
