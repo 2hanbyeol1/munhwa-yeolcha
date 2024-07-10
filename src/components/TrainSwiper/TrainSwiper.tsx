@@ -13,6 +13,7 @@ const TrainSwiper = () => {
     infinite: true,
     slidesToShow: 8,
     slidesToScroll: 1,
+    centerMode: true,
     autoplay: true,
     speed: 1500,
     autoplaySpeed: 0,
@@ -23,7 +24,7 @@ const TrainSwiper = () => {
   };
 
   return (
-    <div className="swiper w-1/2 mx-auto">
+    <div className="swiper w-1/2 min-w-80 mx-auto">
       <Slider {...settings}>
         <div>
           <TrainHead />
