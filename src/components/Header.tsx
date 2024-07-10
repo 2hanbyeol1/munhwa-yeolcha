@@ -1,19 +1,42 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import useKakao from "@/hooks/useKakao";
+import useAuthStore from "@/zustand/authStore";
+import Image from "next/image";
 import Button from "./Button";
 
 const Header = () => {
   const router = useRouter();
+  const { signOut } = useKakao();
+  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
 
   const handelGoHomeClick = () => {
     router.push("/");
   };
 
-  const handleLoginClick = () => {
+  const handleGoLoginClick = () => {
     router.push("/login");
   };
+
+  const handleLogoutClick = () => {
+    signOut();
+    setIsAuthenticated(false);
+    router.push("/login");
+  };
+  // console.log(document.cookie);
+  // console.log(document.cookie.split("; "));
+
+  useEffect(() => {
+    const checkAuthToken = () => {
+      const cookies = document.cookie.split("; ");
+      const authToken = cookies.find((cookie) => cookie.startsWith("sb-awglleigixtjjdlmbhrh-auth-token.0"));
+      setIsAuthenticated(!!authToken);
+    };
+
+    checkAuthToken();
+  }, [setIsAuthenticated]);
 
   return (
     <header className="fixed top-0 left-0 flex-col w-full z-10">
@@ -27,7 +50,11 @@ const Header = () => {
           alt="logo"
           onClick={handelGoHomeClick}
         />
-        <Button buttonName={"접속하기"} onClick={handleLoginClick} />
+        {isAuthenticated ? (
+          <Button buttonName={"로그아웃"} onClick={handleLogoutClick} />
+        ) : (
+          <Button buttonName={"접속하기"} onClick={handleGoLoginClick} />
+        )}
       </div>
       <Image
         width={0}
