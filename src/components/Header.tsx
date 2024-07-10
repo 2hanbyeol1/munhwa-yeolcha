@@ -21,7 +21,7 @@ const Header = () => {
         <Image
           width={0}
           height={0}
-          sizes="100vw"
+          sizes="100%"
           className="w-24 h-auto cursor-pointer"
           src="/logo.png"
           alt="logo"
@@ -32,7 +32,7 @@ const Header = () => {
       <Image
         width={0}
         height={0}
-        sizes="100vw"
+        sizes="100%"
         className="w-full h-auto cursor-pointer"
         src="/headerDeco.png"
         alt="headerDeco"

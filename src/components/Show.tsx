@@ -1,18 +1,30 @@
+import { PerformanceType } from "@/types/performance";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ShowType {
-  image: string;
+  performance: PerformanceType;
 }
 
-const Show = ({ image }: ShowType) => {
+const Show = ({ performance }: ShowType) => {
+  const defaultImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwOJwaIGV12m9rDXUdIsetg0DuXVDZLWZhXA&s";
   return (
-    <div className="relative w-full aspect-poster transition-transform hover:scale-110">
-      <Image sizes="100vw" className="w-full object-cover" src={image} alt="연극" fill />
+    <Link
+      href={`/detail/${performance.id}`}
+      className="relative w-full aspect-poster transition-transform hover:z-10 hover:scale-110"
+    >
+      <Image
+        sizes="100%"
+        className="vintage-img w-full object-cover"
+        src={performance.poster === " " ? defaultImage : performance.poster}
+        alt="연극"
+        fill
+      />
       <div className="flex flex-col max-w-40 absolute -bottom-3 -right-3 p-5 bg-withered-diamond-translucent rounded-lg shadow-md">
-        <span>탈연극</span>
-        <span className="text-sm text-gray-700">서울특별시</span>
+        <span>{performance.name}</span>
+        <span className="text-sm text-gray-700">{performance.place}</span>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -17,4 +17,8 @@
   body {
     @apply bg-beige;
   }
+
+  .vintage-img {
+    filter: sepia(40%) saturate(140%);
+  }
 }
