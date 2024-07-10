@@ -1,11 +1,15 @@
 "use client";
 
 import Button from "@/components/Button";
-import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Performance } from "@/app/types/performance";
 
-const DetailPage = () => {
+const DetailPage = ({ params }: { params: { id: number } }) => {
+  const { id } = params;
+  const [datas, setDatas] = useState<Performance>();
   const router = useRouter();
 
   const handleReserve = () => {
@@ -15,12 +19,20 @@ const DetailPage = () => {
     router.push("/");
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`/api/${id}`);
+      setDatas(res.data.dbs.db[0]);
+    };
+    fetchData();
+  }, [id]);
+
   return (
     <>
       <div className="flex py-20">
         <Image src="/princess.webp" alt="" width={480} height={300} />
         <div className="flex flex-col justify-between ml-8">
-          <div className="h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
+          <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
             <h2 className="text-4xl font-bold">인어공주</h2>
             <ul className="mt-7 text-lg">
               <li className="flex mt-5">
