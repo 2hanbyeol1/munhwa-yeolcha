@@ -1,6 +1,5 @@
 "use client";
 import { User } from "@supabase/supabase-js";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -73,10 +72,6 @@ const SignUpPage = () => {
             className="w-[380px] text-lg bg-green text-white py-2 rounded-full hover:bg-hover-green transition duration-300"
           >
             멤 바 등 록 하 기
-          </button>
-          <button className="flex justify-center gap-2 w-[380px] text-lg bg-yellow py-2 rounded-full hover:bg-hover-green transition duration-300">
-            <Image src="/images/kakaologo.png" alt="카카로 로고" width={36} height={36} />
-            <span>까 까 오 대 화 로ㅤ 등 록 하 기</span>
           </button>
           <Link
             href={"/login"}
