@@ -16,7 +16,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 flex-col w-full z-10">
+    <header className="fixed top-0 left-0 flex-col w-full z-50">
       <div className="w-full h-14 flex justify-between items-center bg-dark-red px-4 py-2 mb-0">
         <Image
           width={0}

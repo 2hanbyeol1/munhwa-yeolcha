@@ -26,6 +26,16 @@ const config: Config = {
       },
       boxShadow: {
         detail: "inset 0 0 5px"
+      },
+      keyframes: {
+        swing: {
+          "0%": { transform: "rotate(-10deg)" },
+          "50%": { transform: "rotate(10deg)" },
+          "100%": { transform: "rotate(-10deg)" }
+        }
+      },
+      animation: {
+        swing: "swing 1.3s ease-in-out infinite"
       }
     }
   },
