@@ -8,8 +8,18 @@ export async function POST(request: NextRequest) {
 
   const supabase = createClient();
 
-  const result = await supabase.auth.signUp({ email, password });
+  try {
+    const {
+      data: { user },
+      error
+    } = await supabase.auth.signUp({ email, password });
 
-  console.log(result);
-  return NextResponse.json("멤바등록이 되었습니다.");
+    if (error) {
+      throw new Error(error.message);
+    }
+    console.log(user);
+    return NextResponse.json(user);
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 400 });
+  }
 }
