@@ -3,10 +3,7 @@ import { createClient } from "@/supabase/client";
 import useAuthStore from "@/zustand/authStore";
 import Image from "next/image";
 import Link from "next/link";
-import { userInfo } from "os";
 import React, { useEffect, useState } from "react";
-
-const userId = userInfo;
 
 // 날짜와 시간 동기화
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
@@ -43,13 +40,15 @@ const MyTicketingListPage = () => {
 
   console.log(userInfo);
 
+  // 마이페이지에 뿌려주는 것
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await createClient().from("reservation").select("*").eq("user_id", userId);
+      const { data } = await createClient().from("reservation").select("*").eq("user_id", userInfo?.id);
+      console.log(data);
       setTickets(data); //여기 타입 물어보기
     };
     fetchData();
-  }, []);
+  }, [userInfo]);
 
   // select부분
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,7 +56,7 @@ const MyTicketingListPage = () => {
   };
 
   const sortTickets = (tickets: Ticket[], sortOrder: string) => {
-    return tickets.slice().sort((reservation, day) => {
+    return tickets?.slice().sort((reservation, day) => {
       if (sortOrder === "예약일 순") {
         return new Date(reservation.created_at).getTime() - new Date(day.created_at).getTime();
       } else if (sortOrder === "공연 날짜 순") {
@@ -71,11 +70,12 @@ const MyTicketingListPage = () => {
 
   // 1. 데이터 가져오기
   // 2. 아이디와 아이디가 같은 걸 supabase에서 삭제하기
+  // 2.2 삭제가 되면 텍스트가 바뀌게 하고싶다.
   // 3. 화면에 보여주기
   useEffect(() => {
     const deleteData = async () => {
-      const { data: reservedData } = await createClient().from("reservation").delete().eq("user_id", userId);
-      if (reservedData) {
+      const { data: reservedData } = await createClient().from("reservation").delete().eq("user_id", userInfo);
+      if (reservedData === true) {
         setReserved(false);
       }
 
@@ -101,14 +101,17 @@ const MyTicketingListPage = () => {
       <div className="border-t border-b border-l border-r-0 border-gray-400">
         <div className="overflow-x-auto">
           <div className="flex">
-            {sortedTickets.map((ticket) => (
-              <div key={ticket.id} className="flex items-center p-[20px] border-r border-gray-400 min-w-[400px]">
+            {sortedTickets?.map((ticket, userInfo) => (
+              <div
+                key={ticket.userInfo?.id}
+                className="flex items-center p-[20px] border-r border-gray-400 min-w-[400px]"
+              >
                 <div>
                   <div>
                     <div>공연 날짜 : {formatDate(ticket.date)}</div>
                     <div className="text-[10px] text-[gray] pt-2 pb-3">예약번호:{ticket.post_id}</div>
                   </div>
-                  <Link href={`/detail/${userId}`} className="border w-[100px]">
+                  <Link href={`/detail/${userInfo?.id}`} className="border w-[100px]">
                     <Image src={ticket.image_url} alt={ticket.title} width={150} height={100} />
                   </Link>
                 </div>
@@ -116,7 +119,7 @@ const MyTicketingListPage = () => {
                   <div className="font-bold pb-[10px] text-[25px] truncate max-w-32">{ticket.title}</div>
                   <div className="text-[10px] text-[gray] pb-1">예약 날짜 : {formatDate(ticket.created_at)}</div>
                   <div>{ticket.status}</div>
-                  <button></button>
+                  <button>예약취소: {reserved}</button>
                 </div>
               </div>
             ))}
