@@ -6,7 +6,7 @@ import React from "react";
 const TicketList = () => {
   const router = useRouter();
   const handleDeleteAccount = async () => {
-    if (!confirm("계정을 정말 삭제하시겠습니까?")) {
+    if (!confirm("정말 회원탈퇴를 하시겠습니까?")) {
       return;
     }
 
@@ -19,14 +19,14 @@ const TicketList = () => {
       });
 
       if (response.ok) {
-        alert("계정이 삭제되었습니다.");
+        alert("회워탈퇴 되었습니다.");
         router.push("/");
       } else {
         const { message } = await response.json();
-        alert(`계정 삭제 실패: ${message}`);
+        alert(`회원탈퇴 실패: ${message}`);
       }
     } catch (error) {
-      alert("계정 삭제 도중 에러가 생겼습니다.");
+      alert("회원탈퇴 도중 에러가 생겼습니다.");
     }
   };
 
