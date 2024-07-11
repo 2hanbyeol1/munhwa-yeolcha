@@ -87,13 +87,13 @@ const LoginPage = () => {
           </button>
           <Link
             href={"/signup"}
-            className="w-[380px] text-center bg-green text-white py-2 rounded-full text-lg hover:bg-hover-green transition duration-300"
+            className="w-[380px] text-center bg-blue text-white py-2 rounded-full text-lg hover:bg-hover-green transition duration-300"
           >
             멤 바 등 록
           </Link>
           <Link
             href={"/"}
-            className="w-[380px] text-center text-lg bg-green text-white py-2 rounded-full hover:bg-hover-green transition duration-300"
+            className="w-[380px] text-center text-lg bg-withered-diamond text-white py-2 rounded-full hover:bg-hover-green transition duration-300"
           >
             뒤 로 가 기
           </Link>
