@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   const handelGoMyPageClick = () => {
-    router.push("/mypage/edit");
+    router.push("/mypage/ticket");
   };
 
   const handleLogoutClick = () => {
