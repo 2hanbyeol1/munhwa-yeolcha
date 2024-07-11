@@ -23,10 +23,26 @@ const LoginPage = () => {
 
     const data = { email, password };
 
-    const response = await fetch("http://localhost:3000/api/auth/log-in", {
-      method: "POST",
-      body: JSON.stringify(data)
-    });
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/log-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "로그인 도중 오류가 발생했습니다.");
+      }
+
+      if (response.status === 200) {
+        router.push("/");
+      }
+    } catch (error: any) {
+      alert(`로그인 실패: ${error.message}`);
+    }
   };
 
   return (
@@ -48,7 +64,7 @@ const LoginPage = () => {
             <label className="bg-coral text-white px-4 py-2 rounded-full whitespace-nowrap">비 밀 번 호</label>
             <input
               type="password"
-              className="bg-beige text-center texflex-grow border-b-2 border-black focus:outline-none"
+              className="bg-beige text-center flex-grow border-b-2 border-black focus:outline-none"
               placeholder="비 밀 번 호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -60,7 +76,7 @@ const LoginPage = () => {
             onClick={handleClickLogIn}
             className="w-[380px] bg-green text-white py-2 rounded-full text-lg hover:bg-hover-green transition duration-300"
           >
-            들 어 가 기
+            접 속 하 기
           </button>
           <button
             className="flex justify-center gap-2 w-[380px] text-lg bg-yellow py-2 rounded-full hover:bg-hover-green transition duration-300"
@@ -71,13 +87,13 @@ const LoginPage = () => {
           </button>
           <Link
             href={"/signup"}
-            className="w-[380px] text-center bg-green text-white py-2 rounded-full text-lg hover:bg-hover-green transition duration-300"
+            className="w-[380px] text-center bg-blue text-white py-2 rounded-full text-lg hover:bg-hover-green transition duration-300"
           >
             멤 바 등 록
           </Link>
           <Link
             href={"/"}
-            className="w-[380px] text-center text-lg bg-green text-white py-2 rounded-full hover:bg-hover-green transition duration-300"
+            className="w-[380px] text-center text-lg bg-withered-diamond text-white py-2 rounded-full hover:bg-hover-green transition duration-300"
           >
             뒤 로 가 기
           </Link>

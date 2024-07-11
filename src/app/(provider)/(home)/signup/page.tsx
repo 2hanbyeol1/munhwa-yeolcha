@@ -1,11 +1,9 @@
 "use client";
-import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const SignUpPage = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
@@ -32,8 +30,6 @@ const SignUpPage = () => {
       });
 
       if (response.status === 200) {
-        const loggedInUser = await response.json();
-        setUser(loggedInUser);
         alert("맴바등록이 완료되었습니다.");
         router.push("/login");
       } else {
