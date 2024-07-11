@@ -1,10 +1,12 @@
 "use client";
 import { createClient } from "@/supabase/client";
+import useAuthStore from "@/zustand/authStore";
 import Image from "next/image";
 import Link from "next/link";
+import { userInfo } from "os";
 import React, { useEffect, useState } from "react";
 
-const userId = "e722d6c5-2d9b-4a46-9846-94b5cf6f2b58";
+const userId = userInfo;
 
 // 날짜와 시간 동기화
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
@@ -34,9 +36,12 @@ export interface Ticket {
 }
 
 const MyTicketingListPage = () => {
+  const { userInfo } = useAuthStore();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [sortOrder, setSortOrder] = useState<string>("예약일 순");
   const [reserved, setReserved] = useState(true);
+
+  console.log(userInfo);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,11 +68,6 @@ const MyTicketingListPage = () => {
   };
 
   const sortedTickets = sortTickets(tickets, sortOrder);
-
-  // 제목 자르기
-  // const truncateTitle = (title: string) => {
-  //   return title.length > 5 ? `${title.slice(0, 5)}...` : title;
-  // };
 
   // 1. 데이터 가져오기
   // 2. 아이디와 아이디가 같은 걸 supabase에서 삭제하기
