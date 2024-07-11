@@ -1,14 +1,16 @@
 "use client";
-import { User } from "@supabase/supabase-js";
+
+import useKakao from "@/hooks/useKakao";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const LoginPage = () => {
-  const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  const { signInWithKakao } = useKakao();
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
@@ -25,29 +27,7 @@ const LoginPage = () => {
       method: "POST",
       body: JSON.stringify(data)
     });
-
-    if (response.status === 200) {
-      const loggedInUser = await response.json();
-      setUser(loggedInUser);
-      router.push("/");
-    } else {
-      const errorData = await response.json();
-      alert("접속 실패");
-    }
   };
-
-  // // 전역상태관리용 유저정보
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/api/auth/me").then(async (response) => {
-  //     if (response.status === 200) {
-  //       const {
-  //         data: { user }
-  //       } = await response.json();
-  //       setUser(user);
-  //       console.log(user);
-  //     }
-  //   });
-  // }, []);
 
   return (
     <div className="flex items-center justify-center">
@@ -68,7 +48,7 @@ const LoginPage = () => {
             <label className="bg-coral text-white px-4 py-2 rounded-full whitespace-nowrap">비 밀 번 호</label>
             <input
               type="password"
-              className="bg-beige text-center flex-grow border-b-2 border-black focus:outline-none"
+              className="bg-beige text-center texflex-grow border-b-2 border-black focus:outline-none"
               placeholder="비 밀 번 호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -81,6 +61,13 @@ const LoginPage = () => {
             className="w-[380px] bg-green text-white py-2 rounded-full text-lg hover:bg-hover-green transition duration-300"
           >
             들 어 가 기
+          </button>
+          <button
+            className="flex justify-center gap-2 w-[380px] text-lg bg-yellow py-2 rounded-full hover:bg-hover-green transition duration-300"
+            onClick={signInWithKakao}
+          >
+            <Image src="/images/kakaologo.png" alt="카카로 로고" width={34} height={34} />
+            <span>까 까 오 대 화 로ㅤ 등 록 하 기</span>
           </button>
           <Link
             href={"/signup"}
