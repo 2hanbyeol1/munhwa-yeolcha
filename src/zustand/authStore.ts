@@ -1,18 +1,35 @@
 import { create } from "zustand";
 
-type AuthState = {
+type UserInfo = {
+  id: string;
+  email: string;
+};
+
+type State = {
   isAuthenticated: boolean;
+  userInfo: UserInfo | null;
   // token: string | null;
-  // setAuth: (token: string) => void;
-  // clearAuth: () => void;
+};
+
+type Actions = {
+  // setAuth: (token: string, user: User) => void;
+  setAuth: (userInfo: UserInfo) => void;
+  clearAuth: () => void;
   setIsAuthenticated: (status: boolean) => void;
 };
 
-const useAuthStore = create<AuthState>((set) => ({
+const initialState: State = {
   isAuthenticated: false,
-  // token: null,
-  // setAuth: (token) => set({ isAuthenticated: true, token }),
-  // clearAuth: () => set({ isAuthenticated: false, token: null }),
+  userInfo: null
+  // token: null
+};
+
+const useAuthStore = create<State & Actions>((set) => ({
+  ...initialState,
+  // setAuth: (token, user) => set({ isAuthenticated: true, token, user }),
+  // clearAuth: () => set({ isAuthenticated: false, token: null, user: null }),
+  setAuth: (userInfo) => set({ isAuthenticated: true, userInfo }),
+  clearAuth: () => set({ isAuthenticated: false, userInfo: null }),
   setIsAuthenticated: (status) => set({ isAuthenticated: status })
 }));
 

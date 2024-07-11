@@ -10,7 +10,7 @@ import Button from "./Button";
 const Header = () => {
   const router = useRouter();
   const { signOut } = useKakao();
-  const { isAuthenticated, setIsAuthenticated } = useAuthStore();
+  const { isAuthenticated, userInfo, setIsAuthenticated, setAuth } = useAuthStore();
 
   const handelGoHomeClick = () => {
     router.push("/");
@@ -20,13 +20,15 @@ const Header = () => {
     router.push("/login");
   };
 
+  const handelGoMyPageClick = () => {
+    router.push("/mypage/edit");
+  };
+
   const handleLogoutClick = () => {
     signOut();
     setIsAuthenticated(false);
     router.push("/login");
   };
-  // console.log(document.cookie);
-  // console.log(document.cookie.split("; "));
 
   useEffect(() => {
     const checkAuthToken = () => {
@@ -37,6 +39,21 @@ const Header = () => {
 
     checkAuthToken();
   }, [setIsAuthenticated]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/auth/me").then(async (response) => {
+      if (response.status === 200) {
+        const {
+          data: { user }
+        } = await response.json();
+        setAuth(user);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("userInfo : ", userInfo); // userInfo 상태가 변경될 때마다 콘솔에 출력
+  }, [userInfo]);
 
   return (
     <header className="fixed top-0 left-0 flex-col w-full z-10">
@@ -51,7 +68,10 @@ const Header = () => {
           onClick={handelGoHomeClick}
         />
         {isAuthenticated ? (
-          <Button buttonName={"로그아웃"} onClick={handleLogoutClick} />
+          <div>
+            <Button buttonName={"마이페이지"} onClick={handelGoMyPageClick} />
+            <Button buttonName={"로그아웃"} onClick={handleLogoutClick} />
+          </div>
         ) : (
           <Button buttonName={"접속하기"} onClick={handleGoLoginClick} />
         )}
