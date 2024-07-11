@@ -51,10 +51,6 @@ const Header = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("userInfo : ", userInfo); // userInfo 상태가 변경될 때마다 콘솔에 출력
-  }, [userInfo]);
-
   return (
     <header className="fixed top-0 left-0 flex-col w-full z-10">
       <div className="w-full h-14 flex justify-between items-center bg-dark-red px-4 py-2 mb-0">

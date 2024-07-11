@@ -3,10 +3,12 @@
 import React from "react";
 import { createClient } from "@/supabase/client";
 import { useRouter } from "next/navigation";
+import useAuthStore from "@/zustand/authStore";
 
 const useKakao = () => {
   const supabase = createClient();
   const router = useRouter();
+  const { clearAuth } = useAuthStore();
 
   // 로그인
   const signInWithKakao = async () => {
@@ -22,6 +24,7 @@ const useKakao = () => {
   // 로그아웃
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
+    clearAuth();
     alert("로그아웃 되었습니다.");
     router.push("/login");
   };
