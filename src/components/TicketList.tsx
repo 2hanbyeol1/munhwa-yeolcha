@@ -1,9 +1,15 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const TicketList = () => {
+  const [clickButton, setClickButton] = useState("ticket");
+
+  const handleLinkClick = (link: string) => {
+    setClickButton(link);
+  };
+
   const router = useRouter();
   const handleDeleteAccount = async () => {
     if (!confirm("계정을 정말 삭제하시겠습니까?")) {
