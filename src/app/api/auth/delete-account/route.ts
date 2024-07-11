@@ -11,9 +11,8 @@ export async function DELETE(request: NextRequest) {
     if (!session) {
       return NextResponse.json({ message: "사용자 인가 안됨" }, { status: 401 });
     }
-    const userId = session.user.id;
 
-    const { data, error } = await supabase.auth.admin.deleteUser(userId);
+    const { data, error } = await supabase.auth.admin.deleteUser(session.user.id);
     if (error) {
       throw new Error(error.message);
     }

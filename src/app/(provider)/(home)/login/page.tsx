@@ -36,18 +36,18 @@ const LoginPage = () => {
     }
   };
 
-  // 전역상태관리용 유저정보
-  useEffect(() => {
-    fetch("http://localhost:3000/api/auth/me").then(async (response) => {
-      if (response.status === 200) {
-        const {
-          data: { user }
-        } = await response.json();
-        setUser(user);
-        console.log(user);
-      }
-    });
-  }, []);
+  // // 전역상태관리용 유저정보
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/api/auth/me").then(async (response) => {
+  //     if (response.status === 200) {
+  //       const {
+  //         data: { user }
+  //       } = await response.json();
+  //       setUser(user);
+  //       console.log(user);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <div className="flex items-center justify-center">

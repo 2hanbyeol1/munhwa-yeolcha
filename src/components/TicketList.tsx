@@ -11,7 +11,7 @@ const TicketList = () => {
     }
 
     try {
-      const response = await fetch("/api/auth/delete-account", {
+      const response = await fetch("http://localhost:3000/api/auth/delete-account", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
