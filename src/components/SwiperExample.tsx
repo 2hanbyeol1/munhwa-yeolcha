@@ -6,7 +6,7 @@ import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import Film from "./Film";
 
-const FilmSwiper = () => {
+const TrainSwiper = () => {
   return (
     <Swiper
       loop={true}
@@ -62,4 +62,4 @@ const FilmSwiper = () => {
   );
 };
 
-export default FilmSwiper;
+export default TrainSwiper;

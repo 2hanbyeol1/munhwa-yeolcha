@@ -44,7 +44,7 @@ const MyTicketingListPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await createClient().from("reservation").select("*").eq("user_id", userInfo?.id);
-      console.log(data);
+      console.log(userInfo?.id);
       setTickets(data); //여기 타입 물어보기
     };
     fetchData();
@@ -74,7 +74,7 @@ const MyTicketingListPage = () => {
   // 3. 화면에 보여주기
   useEffect(() => {
     const deleteData = async () => {
-      const { data: reservedData } = await createClient().from("reservation").delete().eq("user_id", userInfo);
+      const { data: reservedData } = await createClient().from("reservation").delete().eq("user_id", userInfo?.id);
       if (reservedData === true) {
         setReserved(false);
       }

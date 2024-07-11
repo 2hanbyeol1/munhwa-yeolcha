@@ -16,8 +16,8 @@ const config: Config = {
         coral: "#E5514F",
         beige: "#F0DCC6",
         green: "#1A764F",
+        blue: "#007bd1",
         "withered-diamond": "#76939E",
-        "withered-diamond-translucent": "#76939EDD",
         "hover-green": "#2BD58D",
         white: "#FFFFFF",
         yellow: "#FFC700",
@@ -26,6 +26,16 @@ const config: Config = {
       },
       boxShadow: {
         detail: "inset 0 0 5px"
+      },
+      keyframes: {
+        swing: {
+          "0%": { transform: "rotate(-10deg)" },
+          "50%": { transform: "rotate(10deg)" },
+          "100%": { transform: "rotate(-10deg)" }
+        }
+      },
+      animation: {
+        swing: "swing 1.3s ease-in-out infinite"
       }
     }
   },
