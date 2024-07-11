@@ -24,7 +24,7 @@ const MainPage = () => {
       <section>
         <TrainSwiper />
       </section>
-      <section className="mt-10 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <section className="mt-10 mb-5 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {performances.map((performance) => (
           <Show key={performance.id} performance={performance} />
         ))}
