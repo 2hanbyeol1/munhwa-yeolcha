@@ -6,14 +6,40 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Performance } from "@/app/types/performance";
+import { createClient } from "../../../../supabase/client";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const [datas, setDatas] = useState<Performance>();
   const router = useRouter();
+  const supabase = createClient();
 
   const handleReserve = () => {
     alert("예약되었습니다");
+
+    const createPost = async () => {
+      const { data: session, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        console.log(sessionError);
+      }
+      const userId = session.session?.user.id;
+      if (datas && userId) {
+        const { data: post, error } = await supabase
+          .from("reservation")
+          .insert({
+            title: datas.prfnm[0],
+            post_id: datas.mt20id[0],
+            date: datas.prfpdfrom[0],
+            image_url: datas.poster[0],
+            user_id: userId
+          })
+          .select("*");
+        if (error) {
+          console.log("error", error);
+        }
+      }
+    };
+    createPost();
   };
   const handleGoBack = () => {
     router.push("/");
@@ -22,10 +48,12 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`/api/${id}`);
-      setDatas(res.data.dbs.db[0]);
+      if (res) {
+        setDatas(res.data.dbs.db[0]);
+      }
     };
     fetchData();
-  }, [id]);
+  }, []);
 
   return (
     <>
