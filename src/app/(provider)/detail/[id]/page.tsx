@@ -53,7 +53,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`/api/${id}`);
+      const res = await axios.get(`/api/performance/${id}`);
       if (res) {
         setDatas(res.data.dbs.db[0]);
       }
@@ -77,7 +77,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
                 </span>
               </li>
               <li className="flex items-center mt-5">
-                <IoMapOutline size={40} />
+                <IoMapOutline size={30} />
                 <span className="ml-3">{datas?.fcltynm}</span>
               </li>
               <li className="flex items-center mt-5">
