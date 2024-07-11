@@ -26,19 +26,19 @@ const Header = () => {
 
   const handleLogoutClick = () => {
     signOut();
-    setIsAuthenticated(false);
     router.push("/login");
   };
 
   useEffect(() => {
     const checkAuthToken = () => {
       const cookies = document.cookie.split("; ");
-      const authToken = cookies.find((cookie) => cookie.startsWith("sb-awglleigixtjjdlmbhrh-auth-token.0"));
+      const authToken = cookies.find((cookie) => cookie.startsWith("sb-awglleigixtjjdlmbhrh-auth-token"));
+
       setIsAuthenticated(!!authToken);
     };
 
     checkAuthToken();
-  }, [setIsAuthenticated]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/auth/me").then(async (response) => {
@@ -49,7 +49,7 @@ const Header = () => {
         setAuth(user);
       }
     });
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <header className="fixed top-0 left-0 flex-col w-full z-50">
