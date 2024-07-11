@@ -1,26 +1,66 @@
 "use client";
 
 import Button from "@/components/Button";
-import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Performance } from "@/app/types/performance";
+import { createClient } from "../../../../supabase/client";
 
-const DetailPage = () => {
+const DetailPage = ({ params }: { params: { id: number } }) => {
+  const { id } = params;
+  const [datas, setDatas] = useState<Performance>();
   const router = useRouter();
+  const supabase = createClient();
 
   const handleReserve = () => {
     alert("예약되었습니다");
+
+    const createPost = async () => {
+      const { data: session, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        console.log(sessionError);
+      }
+      const userId = session.session?.user.id;
+      if (datas && userId) {
+        const { data: post, error } = await supabase
+          .from("reservation")
+          .insert({
+            title: datas.prfnm[0],
+            post_id: datas.mt20id[0],
+            date: datas.prfpdfrom[0],
+            image_url: datas.poster[0],
+            user_id: userId
+          })
+          .select("*");
+        if (error) {
+          console.log("error", error);
+        }
+      }
+    };
+    createPost();
   };
   const handleGoBack = () => {
     router.push("/");
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`/api/${id}`);
+      if (res) {
+        setDatas(res.data.dbs.db[0]);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
       <div className="flex py-20">
         <Image src="/princess.webp" alt="" width={480} height={300} />
         <div className="flex flex-col justify-between ml-8">
-          <div className="h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
+          <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
             <h2 className="text-4xl font-bold">인어공주</h2>
             <ul className="mt-7 text-lg">
               <li className="flex mt-5">

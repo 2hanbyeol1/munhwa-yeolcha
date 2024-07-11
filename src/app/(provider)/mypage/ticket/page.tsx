@@ -1,11 +1,10 @@
 "use client";
-import Button from "@/components/Button";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const userId = "7c65fc32-2be4-478d-ae6d-7ea8506de71b";
+const userId = "e722d6c5-2d9b-4a46-9846-94b5cf6f2b58";
 
 // 날짜와 시간 동기화
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
