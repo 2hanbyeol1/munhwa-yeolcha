@@ -5,11 +5,17 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Performance } from "@/app/types/performance";
+import { PerformanceDetail } from "@/app/types/performance";
+import { IoCalendarClearOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
+import { IoIosTimer } from "react-icons/io";
+import { IoMapOutline } from "react-icons/io5";
+import { IoNotificationsOutline } from "react-icons/io5";
+import { GoHash } from "react-icons/go";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { id } = params;
-  const [datas, setDatas] = useState<Performance>();
+  const [datas, setDatas] = useState<PerformanceDetail>();
   const router = useRouter();
 
   const handleReserve = () => {
@@ -27,39 +33,40 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
     fetchData();
   }, [id]);
 
+  console.log(datas);
   return (
     <>
       <div className="flex py-20">
-        <Image src="/princess.webp" alt="" width={480} height={300} />
+        {datas?.poster && <Image src={datas?.poster[0]} alt="" width={480} height={300} />}
         <div className="flex flex-col justify-between ml-8">
           <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
-            <h2 className="text-4xl font-bold">인어공주</h2>
+            <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
             <ul className="mt-7 text-lg">
-              <li className="flex mt-5">
-                <Image src="/icons/calendar.svg" alt="" width={30} height={30} />
-                <span className="ml-2">2024. 6. 22 - 8. 25</span>
+              <li className="flex alin mt-5">
+                <IoCalendarClearOutline size={30} />
+                <span className="ml-3">
+                  {datas?.prfpdfrom} - {datas?.prfpdfrom}
+                </span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_map.svg" alt="" width={30} height={30} />
-                <span className="ml-2">롯데마트 행복을 주는 가족극장</span>
+              <li className="flex items-center mt-5">
+                <IoMapOutline size={40} />
+                <span className="ml-3">{datas?.fcltynm}</span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_phone.svg" alt="" width={30} height={30} />
-                <span className="ml-2">031-245-1234</span>
+              <li className="flex items-center mt-5">
+                <IoNotificationsOutline size={30} />
+                <span className="ml-3">{datas?.prfage}</span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_volume.svg" alt="" width={30} height={30} />
-                <span className="ml-2">전체 관람가</span>
+              <li className="flex items-center mt-5">
+                <IoIosTimer size={30} />
+                <span className="ml-3">{datas?.prfruntime}</span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_hashtag.svg" alt="" width={30} height={30} />
-                <span className="ml-2">사랑</span>
+              <li className="flex items-center mt-5">
+                <IoPersonOutline size={30} />
+                <span className="ml-3">{datas?.prfcast}</span>
               </li>
-              <li className="mt-5">
-                <p>
-                  세계적인 명작을 재연한 고전 뮤지컬 인어공주~!!! 인간을 사랑한 인어 공주의 아름답고 애절한 사랑
-                  이야기~!!! 탐욕과 질투로 가득한 바다 마녀의 최후~!!!
-                </p>
+              <li className="flex items-center mt-5">
+                <GoHash size={30} />
+                <span className="ml-3">{datas?.genrenm}</span>
               </li>
             </ul>
           </div>
