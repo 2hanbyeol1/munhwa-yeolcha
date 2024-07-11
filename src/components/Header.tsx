@@ -26,7 +26,6 @@ const Header = () => {
 
   const handleLogoutClick = () => {
     signOut();
-    setIsAuthenticated(false);
     router.push("/login");
   };
 

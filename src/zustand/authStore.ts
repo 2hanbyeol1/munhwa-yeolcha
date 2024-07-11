@@ -28,7 +28,7 @@ const useAuthStore = create<State & Actions>((set) => ({
   ...initialState,
   // setAuth: (token, user) => set({ isAuthenticated: true, token, user }),
   // clearAuth: () => set({ isAuthenticated: false, token: null, user: null }),
-  setAuth: (userInfo) => set({ isAuthenticated: true, userInfo }),
+  setAuth: (userInfo) => set({ userInfo }),
   clearAuth: () => set({ isAuthenticated: false, userInfo: null }),
   setIsAuthenticated: (status) => set({ isAuthenticated: status })
 }));
