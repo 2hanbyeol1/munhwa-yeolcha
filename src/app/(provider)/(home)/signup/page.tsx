@@ -2,7 +2,7 @@
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const SignUpPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -10,35 +10,40 @@ const SignUpPage = () => {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleClickSignup = async () => {
     if (!email || !password) return alert("전자우편, 비밀번호 모두를 기입해 주세요.");
+    if (password.length < 6) return alert("비밀번호는 6글자 이상이어야 합니다.");
+    if (!validateEmail(email)) return alert("유효한 전자우편 주소를 입력해 주세요.");
 
     const data = { email, password };
 
-    const response = await fetch("http://localhost:3000/api/auth/sign-up", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
-    if (response.status === 200) {
-      alert("맴바등록이 완료되었습니다.");
-      router.push("/login");
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.status === 200) {
+        const loggedInUser = await response.json();
+        setUser(loggedInUser);
+        alert("맴바등록이 완료되었습니다.");
+        router.push("/login");
+      } else {
+        const errorData = await response.json();
+        alert("멤바등록 실패");
+      }
+    } catch (error) {
+      alert("알 수 없는 오류가 발생하였습니다. 다시 시도해 주세요.");
     }
   };
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/auth/me").then(async (response) => {
-      if (response.status === 200) {
-        const {
-          data: { user }
-        } = await response.json();
-        setUser(user);
-        console.log(user);
-      }
-    });
-  }, []);
 
   return (
     <div className="flex items-center justify-center">

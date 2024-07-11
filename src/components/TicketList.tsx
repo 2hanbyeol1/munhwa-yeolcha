@@ -1,7 +1,35 @@
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const TicketList = () => {
+  const router = useRouter();
+  const handleDeleteAccount = async () => {
+    if (!confirm("계정을 정말 삭제하시겠습니까?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/delete-account", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (response.ok) {
+        alert("계정이 삭제되었습니다.");
+        router.push("/");
+      } else {
+        const { message } = await response.json();
+        alert(`계정 삭제 실패: ${message}`);
+      }
+    } catch (error) {
+      alert("계정 삭제 도중 에러가 생겼습니다.");
+    }
+  };
+
   return (
     <>
       <div className="flex justify-center items-center h-[600px] w-[100%]">
@@ -19,7 +47,12 @@ const TicketList = () => {
             >
               회원정보 수정
             </Link>
-            <button className="border bg-green p-3 rounded-lg w-40 font-bold text-[white]">회원 탈퇴</button>
+            <button
+              onClick={handleDeleteAccount}
+              className="border bg-green p-3 rounded-lg w-40 font-bold text-[white]"
+            >
+              회원 탈퇴
+            </button>
           </div>
         </div>
       </div>
