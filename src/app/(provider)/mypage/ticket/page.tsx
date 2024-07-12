@@ -111,7 +111,7 @@ const MyTicketingListPage = () => {
                   <div className="font-bold pb-[10px] text-[25px] truncate max-w-xs font-custom">{ticket.title}</div>
                   <div className="text-[10px] text-[gray] pb-1">예약 날짜 : {formatDate(ticket.created_at)}</div>
                   <div className={ticket.reserved ? "text-blue" : "text-red-500"}>
-                    {ticket.reserved ? "예약되었슴다" : "취소되었슴다다익선"}
+                    {ticket.reserved ? "예약되었슴다람쥐" : "취소되었슴다랑어"}
                     {ticket.reserved && (
                       <div className="">
                         <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
