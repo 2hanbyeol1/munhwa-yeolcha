@@ -5,10 +5,11 @@ import { parseString } from "xml2js";
 
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
-  const page = searchParams.get("page");
+  const page = searchParams.get("page") as string;
+  const row = 12; // 한 페이지 당 데이터 개수
   try {
     const response = await axios.get(
-      `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.NEXT_PUBLIC_ARTS_KEY}&stdate=20240610&eddate=20240710&cpage=${page}&rows=5&newsql=Y`
+      `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.NEXT_PUBLIC_ARTS_KEY}&stdate=20240610&eddate=20240710&cpage=${page}&rows=${row}&newsql=Y`
     );
     const xmlData = await response.data;
     let jsonData = "";
@@ -28,7 +29,7 @@ export const GET = async (request: NextRequest) => {
         openrun: item.openrun?.[0]
       }));
     });
-    return NextResponse.json(jsonData);
+    return NextResponse.json({ data: jsonData, nextCursor: parseInt(page) + 1 });
   } catch (error) {
     return NextResponse.json({
       error: "공연 정보를 불러오는데 실패했단다!"
