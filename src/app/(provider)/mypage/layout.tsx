@@ -6,7 +6,7 @@ interface LayoutType {
 
 const Layout = ({ children }: LayoutType) => {
   return (
-    <div className="flex w-[800px]">
+    <div className="flex w-[580px]">
       <div className="grid grid-cols-2">
         <TicketList />
         <div className="w-[600px]">{children}</div>

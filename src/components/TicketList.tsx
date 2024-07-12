@@ -22,7 +22,6 @@ const TicketList = () => {
           const {
             data: { user }
           } = await response.json();
-          console.log("유저정보", user);
           setFlagProvider(user.app_metadata.provider);
         }
       });
@@ -56,7 +55,7 @@ const TicketList = () => {
 
   return (
     <>
-      <div className="flex flex-col items-end pt-10">
+      <div className="flex flex-col items-end pt-[80px]">
         <div className="grid grid-cols-2">
           <div className="flex flex-col justify-center w-[100px]">
             <Link
@@ -71,7 +70,10 @@ const TicketList = () => {
             {flagProvider !== "" && flagProvider !== "kakao" ? (
               <Link
                 href={"/mypage/edit"}
-                className="border bg-green p-3 rounded-lg w-40 mb-1 font-bold text-[white] text-center"
+                className={`p-3 rounded-lg w-40 mb-1 font-bold text-center ${
+                  clickButton === "edit" ? "bg-white text-green" : "bg-green text-white"
+                }`}
+                onClick={() => handleLinkClick("edit")}
               >
                 회원정보 수정
               </Link>
