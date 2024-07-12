@@ -13,6 +13,7 @@ import { IoMapOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { GoHash } from "react-icons/go";
 import { createClient } from "../../../../supabase/client";
+import CountdownTimer from "@/components/CountdownTimer";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { id } = params;
@@ -65,7 +66,12 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   return (
     <>
       <div className="flex py-20">
-        {datas?.poster && <Image src={datas?.poster[0]} alt="" width={480} height={300} />}
+        {datas?.poster && (
+          <div>
+            <CountdownTimer endDate={String(datas?.prfpdto[0])} />
+            <Image src={datas?.poster[0]} alt="" width={480} height={300} />
+          </div>
+        )}
         <div className="flex flex-col justify-between ml-8">
           <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
             <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
@@ -73,7 +79,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
               <li className="flex alin mt-5">
                 <IoCalendarClearOutline size={30} />
                 <span className="ml-3">
-                  {datas?.prfpdfrom} - {datas?.prfpdfrom}
+                  {datas?.prfpdfrom} - {datas?.prfpdto}
                 </span>
               </li>
               <li className="flex items-center mt-5">
