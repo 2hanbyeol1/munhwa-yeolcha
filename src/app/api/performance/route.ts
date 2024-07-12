@@ -1,12 +1,14 @@
 import { PerformanceApiDataType } from "@/types/performance";
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { parseString } from "xml2js";
 
-export const GET = async (request: Request) => {
+export const GET = async (request: NextRequest) => {
+  const searchParams = request.nextUrl.searchParams;
+  const page = searchParams.get("page");
   try {
     const response = await axios.get(
-      `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.NEXT_PUBLIC_ARTS_KEY}&stdate=20240610&eddate=20240710&cpage=1&rows=5&newsql=Y`
+      `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${process.env.NEXT_PUBLIC_ARTS_KEY}&stdate=20240610&eddate=20240710&cpage=${page}&rows=5&newsql=Y`
     );
     const xmlData = await response.data;
     let jsonData = "";

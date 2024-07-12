@@ -1,12 +1,6 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import hanbyeolImg from "../../../public/members/hanbyeol.png";
-import inhwaImg from "../../../public/members/inhwa.png";
-import jihwanImg from "../../../public/members/jihwan.png";
-import seongguImg from "../../../public/members/seonggu.png";
-import seungbinImg from "../../../public/members/seungbin.png";
-import siseungImg from "../../../public/members/siseung.png";
 import TrainCart from "./TrainCart";
 import TrainHead from "./TrainHead";
 
@@ -32,22 +26,22 @@ const TrainSwiper = () => {
           <TrainHead />
         </div>
         <div>
-          <TrainCart member={{ name: "한별", img: hanbyeolImg }} color="red" />
+          <TrainCart member={{ name: "한별", img: "/members/hanbyeol.png" }} color="red" />
         </div>
         <div>
-          <TrainCart member={{ name: "인화", img: inhwaImg }} color="yellow" />
+          <TrainCart member={{ name: "인화", img: "/members/inhwa.png" }} color="yellow" />
         </div>
         <div>
-          <TrainCart member={{ name: "승빈", img: seungbinImg }} color="red" />
+          <TrainCart member={{ name: "승빈", img: "/members/seungbin.png" }} color="red" />
         </div>
         <div>
-          <TrainCart member={{ name: "성구", img: seongguImg }} color="yellow" />
+          <TrainCart member={{ name: "성구", img: "/members/seonggu.png" }} color="yellow" />
         </div>
         <div>
-          <TrainCart member={{ name: "시승", img: siseungImg }} color="red" />
+          <TrainCart member={{ name: "시승", img: "/members/siseung.png" }} color="red" />
         </div>
         <div>
-          <TrainCart member={{ name: "지환", img: jihwanImg }} color="yellow" />
+          <TrainCart member={{ name: "지환", img: "/members/jihwan.png" }} color="yellow" />
         </div>
         <div></div>
         <div></div>
