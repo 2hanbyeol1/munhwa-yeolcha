@@ -56,20 +56,20 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 flex-col w-full z-50">
-      <div className="w-full h-14 flex justify-between items-center bg-dark-red px-4 py-2 mb-0">
+      <div className="w-full h-[80px] flex justify-between items-center bg-dark-red px-4 py-2 mb-0">
         <Image
           width={0}
           height={0}
           sizes="100%"
-          className="w-24 h-auto cursor-pointer"
+          className="w-36 h-auto cursor-pointer"
           src="/logo.png"
           alt="logo"
           onClick={handelGoHomeClick}
         />
         {isAuthenticated ? (
           <div>
-            <Button buttonName={"마이페이지"} onClick={handelGoMyPageClick} />
-            <Button buttonName={"로그아웃"} onClick={() => toggleModal("로그아웃")} />
+            <Button hover={true} buttonName={"마이페이지"} onClick={handelGoMyPageClick} />
+            <Button hover={true} buttonName={"로그아웃"} onClick={() => toggleModal("로그아웃")} />
             <Modal id="로그아웃">
               <p>정말 로그아웃 하시겠습니까?</p>
               <Button buttonName="예" onClick={handleLogoutClick} bgColor={"bg-coral"} />
