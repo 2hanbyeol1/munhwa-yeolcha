@@ -12,7 +12,7 @@ import useModalStore from "@/zustand/modalStore";
 const Header = () => {
   const router = useRouter();
   const { signOut } = useKakao();
-  const { isAuthenticated, userInfo, setIsAuthenticated, setAuth } = useAuthStore();
+  const { isAuthenticated, setIsAuthenticated, setAuth } = useAuthStore();
   const { toggleModal } = useModalStore();
 
   const handelGoHomeClick = () => {
@@ -29,7 +29,7 @@ const Header = () => {
 
   const handleLogoutClick = () => {
     signOut();
-    router.push("/login");
+    toggleModal("로그아웃");
   };
 
   useEffect(() => {
