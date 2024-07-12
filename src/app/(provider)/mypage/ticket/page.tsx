@@ -93,18 +93,18 @@ const MyTicketingListPage = () => {
           </select>
         </div>
       </span>
-      <div className="border-t border-b border-l border-r-0 border-gray-400">
-        <div className="overflow-x-auto">
-          <div className="flex">
+      <div>
+        <div className="">
+          <div className="flex flex-col">
             {sortedTickets?.map((ticket, index) => (
-              <div key={index} className="flex items-center p-[20px] border-r border-gray-400 min-w-[400px]">
+              <div key={index} className="flex items-center p-[10px] border-black border-b border-t">
                 <div>
                   <div>
                     <div>공연 날짜 : {formatDate(ticket.date)}</div>
                     <div className="text-[10px] text-[gray] pt-2 pb-3">예약번호:{ticket.post_id}</div>
                   </div>
                   <Link href={`/detail/${ticket.post_id}`} className="border w-[100px]">
-                    <Image src={ticket.image_url} alt={ticket.title} width={150} height={100} />
+                    <Image src={ticket.image_url} alt={ticket.title} width={200} height={100} />
                   </Link>
                 </div>
                 <div className="flex flex-col ml-4">
