@@ -76,7 +76,7 @@ const MyTicketingListPage = () => {
       return;
     }
     console.log(postId);
-    alert("취소되었습니다.");
+    alert("취소었습니다.");
     fetchData();
   };
 
@@ -97,24 +97,24 @@ const MyTicketingListPage = () => {
         <div className="">
           <div className="flex flex-col">
             {sortedTickets?.map((ticket, index) => (
-              <div key={index} className="flex items-center p-[10px] border-black border-b border-t">
+              <div key={index} className="flex items-center p-[10px] border-black border-b border-t ">
                 <div>
                   <div>
                     <div>공연 날짜 : {formatDate(ticket.date)}</div>
                     <div className="text-[10px] text-[gray] pt-2 pb-3">예약번호:{ticket.post_id}</div>
                   </div>
-                  <Link href={`/detail/${ticket.post_id}`} className="border w-[100px]">
+                  <Link href={`/detail/${ticket.post_id}`}>
                     <Image src={ticket.image_url} alt={ticket.title} width={200} height={100} />
                   </Link>
                 </div>
                 <div className="flex flex-col ml-4">
-                  <div className="font-bold pb-[10px] text-[25px] truncate max-w-32 font-custom">{ticket.title}</div>
+                  <div className="font-bold pb-[10px] text-[25px] truncate max-w-xs font-custom">{ticket.title}</div>
                   <div className="text-[10px] text-[gray] pb-1">예약 날짜 : {formatDate(ticket.created_at)}</div>
                   <div className={ticket.reserved ? "text-blue" : "text-red-500"}>
                     {ticket.reserved ? "예약되었다람쥐" : "취소되었다랑어"}
                   </div>
-                  <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
                 </div>
+                <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
               </div>
             ))}
           </div>
