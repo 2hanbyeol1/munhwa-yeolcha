@@ -1,5 +1,6 @@
 "use client";
 import LoadingPage from "@/app/loading";
+import ScrollButtons from "@/components/ScrollButtons";
 import { PerformanceType } from "@/types/performance";
 import useAuthStore from "@/zustand/authStore";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -45,6 +46,7 @@ const MainPage = () => {
     };
 
     checkAuthToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   if (isPending) return <LoadingPage />;
@@ -55,10 +57,11 @@ const MainPage = () => {
       <TrainSection />
       <ShowSection performances={performances} />
       {isFetching ? (
-        <Image className="mx-auto my-3" src="/loading.gif" width={30} height={30} alt="로딩이미지" />
+        <Image className="mx-auto my-3" src="/loading.gif" width={50} height={50} alt="로딩이미지" />
       ) : (
         <div ref={ref}></div>
       )}
+      <ScrollButtons />
     </>
   );
 };
