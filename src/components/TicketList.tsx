@@ -38,7 +38,7 @@ const TicketList = () => {
 
   return (
     <>
-      <div className="flex flex-col items-end pt-10">
+      <div className="flex flex-col items-end pt-[80px]">
         <div className="grid grid-cols-2">
           <div className="flex flex-col justify-center w-[100px]">
             <Link

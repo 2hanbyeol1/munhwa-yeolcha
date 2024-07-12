@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const Edit = () => {
   return (
-    <div className="flex items-center h-[612px] w-[100%]">
+    <div className="flex pt-[85px] h-[612px] w-[100%]">
       <EditProfileForm />
     </div>
   );

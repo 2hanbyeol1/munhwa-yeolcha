@@ -25,7 +25,7 @@ const EditProfileForm: React.FC = () => {
   return (
     <form className="ml-8 mr-8 space-y-4">
       <div className="flex">
-        <label className="bg-green text-white text-center py-2 px-3 w-32 h-9 text-sm rounded-l-md">새 비밀번호</label>
+        <label className="bg-green text-white text-center py-2 px-2 w-36 h-9 text-sm rounded-l-md">새 비밀번호</label>
         <input
           type="password"
           name="password"
@@ -35,7 +35,7 @@ const EditProfileForm: React.FC = () => {
         />
       </div>
       <div className="flex">
-        <label className="bg-green text-white text-center text-sm py-2.5 w-32 h-9 rounded-l-md">비밀번호 확인</label>
+        <label className="bg-green text-white text-center text-sm px-2 py-2 w-36 h-9 rounded-l-md">비밀번호 확인</label>
         <input
           type="password"
           name="confirmPassword"
