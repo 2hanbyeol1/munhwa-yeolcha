@@ -1,47 +1,8 @@
 import React, { useState, useEffect } from "react";
-// import { fetchUserProfile, updateUserProfile } from "";
-
-// interface ProfileFormProps {
-//   userId: string;
-// }
+import { createClient } from "@supabase/supabase-js";
 
 const EditProfileForm: React.FC = () => {
-  // const [profile, setProfile] = useState({ password: "" });
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const getUserProfile = async () => {
-  //     try {
-  //       const userProfile = await fetchUserProfile(userId);
-  //       setProfile(userProfile);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       setError("Failed to load user profile");
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   getUserProfile();
-  // }, [userId]);
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setProfile((prevProfile) => ({ ...prevProfile, [name]: value }));
-  // };
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   try {
-  //     await updateUserProfile(userId, profile);
-  //     alert("Profile updated successfully");
-  //   } catch (error) {
-  //     setError("Failed to update profile");
-  //   }
-  // };
-
-  // if (isLoading) return <p>Loading...</p>;
-  // if (error) return <p>{error}</p>;
-
+  const ?? = useEffect(()=>{const ??? = async() => {await ;}})
   return (
     <form className="ml-8 mr-8 space-y-4">
       <div className="flex">
@@ -53,9 +14,7 @@ const EditProfileForm: React.FC = () => {
         />
       </div>
       <div className="flex">
-        <label className="bg-green text-white text-center text-xs py-2.5 px-2 w-32 h-9 rounded-l-md">
-          비밀번호 확인
-        </label>
+        <label className="bg-green text-white text-center text-sm py-2.5 w-32 h-9 rounded-l-md">비밀번호 확인</label>
         <input
           type="password"
           name="confirmPassword"
