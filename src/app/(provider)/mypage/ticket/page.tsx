@@ -7,7 +7,6 @@ import React, { useEffect, useState } from "react";
 import { Tables } from "../../../../../types/supabase";
 import Button from "@/components/Button";
 
-// 날짜와 시간 동기화
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
 const formatDate = (dateString: string) => {
@@ -28,7 +27,6 @@ const MyTicketingListPage = () => {
   const [sortOrder, setSortOrder] = useState<string>("예약일 순");
   const supabase = createClient();
 
-  // 마이페이지에 뿌려주는 것
   const fetchData = async () => {
     if (!userInfo) return;
     const { data } = await supabase.from("reservation").select("*").eq("user_id", userInfo.id);
@@ -42,7 +40,6 @@ const MyTicketingListPage = () => {
     fetchData();
   }, [userInfo]);
 
-  // select부분
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOrder(e.target.value);
   };
@@ -60,22 +57,18 @@ const MyTicketingListPage = () => {
 
   const sortedTickets = sortTickets(tickets, sortOrder);
 
-  //예약 취소 업데이트 로직
   const handleCancelClick = async (postId: string) => {
     if (!userInfo) return;
     const { data, error } = await supabase
       .from("reservation")
-      .update({ reserved: false }) // false로 업데이트
+      .update({ reserved: false })
       .eq("user_id", userInfo.id)
       .eq("post_id", postId);
-    console.log(userInfo.id, postId);
-
     if (error) {
       console.error(error);
       alert("예약 취소에 실패했습니다.");
       return;
     }
-    console.log(postId);
     alert("취소었습니다.");
     fetchData();
   };
@@ -94,7 +87,7 @@ const MyTicketingListPage = () => {
         </div>
       </span>
       <div>
-        <div className="">
+        <div>
           <div className="flex flex-col">
             {sortedTickets?.map((ticket, index) => (
               <div key={index} className="flex items-center p-[10px] border-black border-b">
@@ -113,7 +106,7 @@ const MyTicketingListPage = () => {
                   <div className={ticket.reserved ? "text-blue" : "text-red-500"}>
                     {ticket.reserved ? "예약되었슴다람쥐" : "취소되었슴다랑어"}
                     {ticket.reserved && (
-                      <div className="">
+                      <div>
                         <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
                       </div>
                     )}
