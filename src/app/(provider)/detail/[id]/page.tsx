@@ -14,41 +14,57 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { GoHash } from "react-icons/go";
 import { createClient } from "../../../../supabase/client";
 import LoadingPage from "@/app/loading";
+import useAuthStore from "@/zustand/authStore";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
+  const { userInfo } = useAuthStore();
   const { id } = params;
   const [datas, setDatas] = useState<PerformanceDetail>();
   const [loading, setLoading] = useState(true);
+  const [reserved, setReserved] = useState(false);
+  const [buttonText, setButtonText] = useState("예약하기");
   const router = useRouter();
   const supabase = createClient();
 
   const handleReserve = () => {
-    alert("예약되었습니다");
-
     const createPost = async () => {
-      const { data: session, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError) {
-        console.log(sessionError);
-      }
-      const userId = session.session?.user.id;
-      if (datas && userId) {
-        const { data: post, error } = await supabase
-          .from("reservation")
-          .insert({
-            title: datas.prfnm[0] as string,
-            post_id: datas.mt20id[0] as string,
-            date: datas.prfpdfrom[0] as string,
-            image_url: datas.poster[0] as string,
-            user_id: userId
-          })
-          .select("*");
-        if (error) {
-          console.log("error", error);
+      const { data: confirm, error: checkError } = await supabase
+        .from("reservation")
+        .select()
+        .eq("user_id", userInfo?.id as string)
+        .eq("post_id", datas?.mt20id[0] as string)
+        .eq("reserved", true)
+        .single();
+
+      if (confirm) {
+        alert("이미 예약 완료된 공연이걸랑요");
+        if (confirm.reserved) {
+          setButtonText("예약 완료");
+        }
+      } else {
+        if (datas && userInfo?.id) {
+          const { data: post, error: insertError } = await supabase
+            .from("reservation")
+            .insert({
+              title: datas.prfnm[0] as string,
+              post_id: datas.mt20id[0] as string,
+              date: datas.prfpdfrom[0] as string,
+              image_url: datas.poster[0] as string,
+              user_id: userInfo.id
+            })
+            .select("*");
+          if (insertError) {
+            console.log("insertError", insertError);
+          } else {
+            alert("예약 완료되었걸랑요");
+            setReserved(true);
+          }
         }
       }
     };
     createPost();
   };
+
   const handleGoBack = () => {
     router.push("/");
   };
@@ -58,11 +74,28 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
       const res = await axios.get(`/api/performance/${id}`);
       if (res) {
         setDatas(res.data.dbs.db[0]);
+        if (userInfo) {
+          getReserved(res.data.dbs.db[0]);
+        }
       }
       setLoading(false);
     };
+
+    const getReserved = async (datas: PerformanceDetail) => {
+      const { data: reserved, error: getDateError } = await supabase
+        .from("reservation")
+        .select()
+        .eq("user_id", userInfo?.id as string)
+        .eq("post_id", datas?.mt20id[0] as string)
+        .single();
+
+      if (reserved) {
+        setReserved(true);
+      }
+    };
+
     fetchData();
-  }, []);
+  }, [userInfo]);
 
   if (loading) {
     return <LoadingPage />;
@@ -79,7 +112,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
               <li className="flex alin mt-5">
                 <IoCalendarClearOutline size={30} />
                 <span className="ml-3">
-                  {datas?.prfpdfrom} - {datas?.prfpdfrom}
+                  {datas?.prfpdfrom} - {datas?.prfpdto}
                 </span>
               </li>
               <li className="flex items-center mt-5">
@@ -115,11 +148,14 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
               onClick={handleGoBack}
             ></Button>
             <Button
-              buttonName={"예약하기"}
+              buttonName={reserved ? "예약 완료" : "예약하기"}
               buttonWidth={"w-2/4"}
+              bgColor={reserved ? "bg-[#BBBBBB]" : "bg-[#1A764F]"}
               paddingY={"py-3"}
               marginY={"my-0"}
               onClick={handleReserve}
+              opacity={reserved ? "opacity-70" : "opacity-100"}
+              hover={reserved ? false : true}
             />
           </div>
         </div>

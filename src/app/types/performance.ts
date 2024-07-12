@@ -2,7 +2,7 @@ export type PerformanceDetail = {
   mt20id: string[];
   prfnm: string[];
   prfpdfrom: string[];
-  prfpdto: number[];
+  prfpdto: string[];
   prfage: string[];
   poster: string[];
   fcltynm: string[];
