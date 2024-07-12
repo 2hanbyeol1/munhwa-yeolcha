@@ -25,6 +25,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   const [buttonText, setButtonText] = useState("예약하기");
   const router = useRouter();
   const supabase = createClient();
+  const [showButton, setShowButton] = useState(true);
 
   const handleReserve = () => {
     const createPost = async () => {
@@ -82,15 +83,29 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
     };
 
     const getReserved = async (datas: PerformanceDetail) => {
-      const { data: reserved, error: getDateError } = await supabase
+      const { data: reserved } = await supabase
         .from("reservation")
         .select()
         .eq("user_id", userInfo?.id as string)
         .eq("post_id", datas?.mt20id[0] as string)
+        .eq("reserved", true)
         .single();
 
       if (reserved) {
         setReserved(true);
+      } else {
+        setReserved(false);
+      }
+
+      if (datas?.prfpdto) {
+        const today = new Date();
+        const performanceDate = new Date(datas.prfpdto[0]);
+
+        if (performanceDate < today) {
+          setShowButton(false);
+        } else {
+          setShowButton(true);
+        }
       }
     };
 
@@ -147,16 +162,20 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
               marginY={"my-0"}
               onClick={handleGoBack}
             ></Button>
-            <Button
-              buttonName={reserved ? "예약 완료" : "예약하기"}
-              buttonWidth={"w-2/4"}
-              bgColor={reserved ? "bg-[#BBBBBB]" : "bg-[#1A764F]"}
-              paddingY={"py-3"}
-              marginY={"my-0"}
-              onClick={handleReserve}
-              opacity={reserved ? "opacity-70" : "opacity-100"}
-              hover={reserved ? false : true}
-            />
+            {showButton ? (
+              <Button
+                buttonName={reserved ? "예약 완료" : "예약하기"}
+                buttonWidth={"w-2/4"}
+                bgColor={reserved ? "bg-[#BBBBBB]" : "bg-[#1A764F]"}
+                paddingY={"py-3"}
+                marginY={"my-0"}
+                onClick={handleReserve}
+                opacity={reserved ? "opacity-70" : "opacity-100"}
+                hover={reserved ? false : true}
+              />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
