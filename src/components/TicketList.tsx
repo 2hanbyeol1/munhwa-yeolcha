@@ -22,7 +22,7 @@ const TicketList = () => {
           const {
             data: { user }
           } = await response.json();
-          // console.log("유저정보", user);
+          console.log("유저정보", user);
           setFlagProvider(user.app_metadata.provider);
         }
       });
