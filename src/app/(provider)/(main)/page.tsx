@@ -3,6 +3,7 @@ import LoadingPage from "@/app/loading";
 import { PerformanceType } from "@/types/performance";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Image from "next/image";
 import ShowSection from "./_component/ShowSection/ShowSection";
 import TrainSection from "./_component/TrainSection";
 
@@ -13,7 +14,8 @@ const MainPage = () => {
     hasNextPage,
     isError,
     error,
-    isPending
+    isPending,
+    isFetching
   } = useInfiniteQuery({
     queryKey: ["performance", { list: true }],
     queryFn: ({ pageParam }) => axios.get(`/api/performance?page=${pageParam}`).then((res) => res.data),
@@ -36,6 +38,7 @@ const MainPage = () => {
       <TrainSection />
       <ShowSection performances={performances} />
       <button onClick={handleButtonClick}>zz</button>
+      {isFetching && <Image src="/loading.gif" width={50} height={50} alt="로딩이미지" className="mx-auto" />}
     </>
   );
 };
