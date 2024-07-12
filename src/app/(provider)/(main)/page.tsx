@@ -4,6 +4,8 @@ import { PerformanceType } from "@/types/performance";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import ShowSection from "./_component/ShowSection/ShowSection";
 import TrainSection from "./_component/TrainSection";
 
@@ -11,11 +13,10 @@ const MainPage = () => {
   const {
     data: performances,
     fetchNextPage,
-    hasNextPage,
+    isFetching,
     isError,
     error,
-    isPending,
-    isFetching
+    isPending
   } = useInfiniteQuery({
     queryKey: ["performance", { list: true }],
     queryFn: ({ pageParam }) => axios.get(`/api/performance?page=${pageParam}`).then((res) => res.data),
@@ -24,21 +25,27 @@ const MainPage = () => {
     select: (response) => response.pages.reduce((acc, { data }) => [...acc, ...data], [] as PerformanceType[])
   });
 
+  const { ref, inView } = useInView({
+    threshold: 0
+  });
+
+  useEffect(() => {
+    if (inView) fetchNextPage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
+
   if (isPending) return <LoadingPage />;
   if (isError) throw new Error(error.message);
-
-  const handleButtonClick = () => {
-    if (hasNextPage) {
-      fetchNextPage();
-    }
-  };
 
   return (
     <>
       <TrainSection />
       <ShowSection performances={performances} />
-      <button onClick={handleButtonClick}>zz</button>
-      {isFetching && <Image src="/loading.gif" width={50} height={50} alt="로딩이미지" className="mx-auto" />}
+      {isFetching ? (
+        <Image className="mx-auto my-3" src="/loading.gif" width={30} height={30} alt="로딩이미지" />
+      ) : (
+        <div ref={ref}></div>
+      )}
     </>
   );
 };
