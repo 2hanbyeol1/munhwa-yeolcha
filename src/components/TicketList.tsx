@@ -71,7 +71,10 @@ const TicketList = () => {
             {flagProvider !== "" && flagProvider !== "kakao" ? (
               <Link
                 href={"/mypage/edit"}
-                className="border bg-green p-3 rounded-lg w-40 mb-1 font-bold text-[white] text-center"
+                className={`p-3 rounded-lg w-40 mb-1 font-bold text-center ${
+                  clickButton === "edit" ? "bg-white text-green" : "bg-green text-white"
+                }`}
+                onClick={() => handleLinkClick("edit")}
               >
                 회원정보 수정
               </Link>
