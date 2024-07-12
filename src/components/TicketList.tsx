@@ -38,9 +38,9 @@ const TicketList = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center h-[600px] w-[100%]">
+      <div className="flex flex-col items-end pt-10">
         <div className="grid grid-cols-2">
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center w-[100px]">
             <Link
               href={"/mypage/ticket"}
               className={`p-3 rounded-lg w-40 mb-1 font-bold text-center ${
