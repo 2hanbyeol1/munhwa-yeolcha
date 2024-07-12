@@ -35,20 +35,30 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endDate }) => {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [isLoading, setIsLoading] = useState(true);
   const isTimeLeftZero =
     timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
+      setIsLoading(false);
     }, 1000);
 
     return () => clearTimeout(timer);
   }, [timeLeft]);
 
-  // console.log(timeLeft);
+  const Skeleton = () => (
+    <div className="flex space-x-4 text-xl justify-center p-1 bg-dark-red text-white rounded-lg shadow-lg">
+      <div className="p-2 rounded-md shadow-inner animate-pulse w-20 h-8"></div>
+      <div className="p-2 rounded-md shadow-inner animate-pulse w-20 h-8"></div>
+      <div className="p-2 rounded-md shadow-inner animate-pulse w-40 h-8"></div>
+    </div>
+  );
 
-  return (
+  return isLoading ? (
+    <Skeleton />
+  ) : (
     <div className="flex space-x-4 text-xl justify-center p-1 bg-dark-red text-white rounded-lg shadow-lg">
       {isTimeLeftZero ? (
         <div className="p-2 rounded-md shadow-inner">공 연 마 감</div>

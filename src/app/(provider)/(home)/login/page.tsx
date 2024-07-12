@@ -51,7 +51,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center mt-20">
       <div className="rounded-3xl w-full max-w-lg h-[550px] border-4 border-dark-red shadow-2xl flex flex-col gap-5 items-center justify-center">
         <h2 className="text-4xl font-bold mb-8 text-center ">접 속 하 기</h2>
         <div className="mb-6 space-y-6">
