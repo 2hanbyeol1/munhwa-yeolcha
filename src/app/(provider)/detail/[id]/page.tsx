@@ -62,7 +62,6 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
     fetchData();
   }, []);
 
-  console.log(datas);
   return (
     <>
       <div className="flex py-20">
@@ -91,10 +90,13 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
                     <IoNotificationsOutline size={30} />
                     <span className="ml-3">{datas?.prfage}</span>
                   </li>
-                  {/* <li className="flex items-center mt-5">
-                    <IoIosTimer size={30} />
-                    <span className="ml-3">{datas?.prfruntime}</span>
-                  </li> */}
+                  {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
+                    <li className="flex items-center mt-5">
+                      <IoIosTimer size={30} />
+                      <span className="ml-3">{datas.prfruntime.join(", ")}</span>
+                    </li>
+                  )}
+
                   <li className="flex items-center mt-5">
                     <IoPersonOutline size={30} />
                     <span className="ml-3">{datas?.prfcast}</span>
