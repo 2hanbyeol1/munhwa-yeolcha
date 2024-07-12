@@ -88,7 +88,7 @@ const LoginPage = () => {
             onClick={signInWithKakao}
           >
             <Image src="/images/kakaologo.png" alt="카카로 로고" width={34} height={34} />
-            <span>까 까 오 대 화 로ㅤ 등 록 하 기</span>
+            <span>까 까 오 대 화 로ㅤ 간 편 접 속</span>
           </button>
           <Link
             href={"/signup"}

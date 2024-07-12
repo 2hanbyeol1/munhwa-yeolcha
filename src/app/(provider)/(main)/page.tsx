@@ -3,10 +3,13 @@ import LoadingPage from "@/app/loading";
 import Show from "@/components/Show";
 import TrainSwiper from "@/components/TrainSwiper";
 import { PerformanceType } from "@/types/performance";
+import useAuthStore from "@/zustand/authStore";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect } from "react";
 
 const MainPage = () => {
+  const { setIsAuthenticated, isAuthenticated } = useAuthStore();
   const {
     data: performances,
     isPending,
@@ -15,6 +18,17 @@ const MainPage = () => {
     queryKey: ["performance", { list: true }],
     queryFn: () => axios.get("/api/performance").then((res) => res.data)
   });
+
+  useEffect(() => {
+    const checkAuthToken = () => {
+      const cookies = document.cookie.split("; ");
+      const authToken = cookies.find((cookie) => cookie.startsWith("sb-awglleigixtjjdlmbhrh-auth-token"));
+
+      setIsAuthenticated(!!authToken);
+    };
+
+    checkAuthToken();
+  }, [isAuthenticated]);
 
   if (isPending) return <LoadingPage />;
   if (isError) throw new Error();
