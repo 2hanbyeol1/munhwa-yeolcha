@@ -49,14 +49,14 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endDate }) => {
   // console.log(timeLeft);
 
   return (
-    <div className="flex space-x-4 text-xl justify-center p-1 bg-black text-prompt-green rounded-lg shadow-lg">
+    <div className="flex space-x-4 text-xl justify-center p-1 bg-dark-red text-white rounded-lg shadow-lg">
       {isTimeLeftZero ? (
-        <div className="bg-black p-2 rounded-md shadow-inner">공 연 마 감</div>
+        <div className="bg-white p-2 rounded-md shadow-inner">공 연 마 감</div>
       ) : (
         <>
-          <div className="bg-black p-2 rounded-md shadow-inner">공 연 마 감</div>
-          <div className="bg-black p-2 rounded-md shadow-inner">{timeLeft.days}일</div>
-          <div className="bg-black p-2 rounded-md shadow-inner">
+          <div className="p-2 rounded-md shadow-inner">공 연 마 감</div>
+          <div className="p-2 rounded-md shadow-inner">{timeLeft.days}일</div>
+          <div className="p-2 rounded-md shadow-inner">
             {String(timeLeft.hours).padStart(2, "0")} : {String(timeLeft.minutes).padStart(2, "0")} :{" "}
             {String(timeLeft.seconds).padStart(2, "0")}
           </div>
