@@ -25,11 +25,11 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button
-      className={`${bgColor} rounded ${textColor ? textColor : "text-white"} font-semibold mx-1 ${
-        marginY ? marginY : "my-2"
-      }   ${paddingY ? paddingY : "py-1"} px-4 ${opacity}  ${hover ? "hover:bg-white hover:text-green" : ""} ${
-        buttonWidth ? buttonWidth : null
-      }`}
+      className={`${bgColor ? bgColor : "bg-[#1A764F]"} rounded ${
+        textColor ? textColor : "text-white"
+      } font-semibold mx-1 ${marginY ? marginY : "my-2"}   ${paddingY ? paddingY : "py-1"} px-4 ${opacity}  ${
+        hover ? "hover:bg-white hover:text-green" : ""
+      } ${buttonWidth ? buttonWidth : null}`}
       onClick={onClick}
     >
       {buttonName}

@@ -143,10 +143,12 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
                 <IoNotificationsOutline size={30} />
                 <span className="ml-3">{datas?.prfage}</span>
               </li>
-              <li className="flex items-center mt-5">
-                <IoIosTimer size={30} />
-                <span className="ml-3">{datas?.prfruntime}</span>
-              </li>
+              {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
+                <li className="flex items-center mt-5">
+                  <IoIosTimer size={30} />
+                  <span className="ml-3">{datas.prfruntime.join(", ")}</span>
+                </li>
+              )}
               <li className="flex items-center mt-5">
                 <IoPersonOutline size={30} />
                 <span className="ml-3">{datas?.prfcast}</span>
@@ -156,45 +158,6 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
                 <span className="ml-3">{datas?.genrenm}</span>
               </li>
             </ul>
-            <div className="flex flex-col justify-between h-full">
-              <div>
-                <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
-                <ul className="mt-7 text-lg">
-                  <li className="flex alin mt-5">
-                    <IoCalendarClearOutline size={30} />
-                    <span className="ml-3">
-                      {datas?.prfpdfrom} - {datas?.prfpdto}
-                    </span>
-                  </li>
-                  <li className="flex items-center mt-5">
-                    <IoMapOutline size={30} />
-                    <span className="ml-3">{datas?.fcltynm}</span>
-                  </li>
-                  <li className="flex items-center mt-5">
-                    <IoNotificationsOutline size={30} />
-                    <span className="ml-3">{datas?.prfage}</span>
-                  </li>
-                  {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
-                    <li className="flex items-center mt-5">
-                      <IoIosTimer size={30} />
-                      <span className="ml-3">{datas.prfruntime.join(", ")}</span>
-                    </li>
-                  )}
-
-                  <li className="flex items-center mt-5">
-                    <IoPersonOutline size={30} />
-                    <span className="ml-3">{datas?.prfcast}</span>
-                  </li>
-                  <li className="flex items-center mt-5">
-                    <GoHash size={30} />
-                    <span className="ml-3">{datas?.genrenm}</span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <CountdownTimer endDate={String(datas?.prfpdto[0])} />
-              </div>
-            </div>
           </div>
           <div className="mt-7 text-center">
             <Button
