@@ -3,6 +3,7 @@ export type PerformanceDetail = {
   prfnm: string[];
   prfpdfrom: string[];
   prfpdto: string[];
+  prfpdto: number[];
   prfage: string[];
   poster: string[];
   fcltynm: string[];

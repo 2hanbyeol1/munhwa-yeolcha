@@ -1,23 +1,41 @@
 "use client";
 import LoadingPage from "@/app/loading";
-import Show from "@/components/Show";
-import TrainSwiper from "@/components/TrainSwiper";
+import ScrollButtons from "@/components/ScrollButtons";
 import { PerformanceType } from "@/types/performance";
 import useAuthStore from "@/zustand/authStore";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Image from "next/image";
 import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import ShowSection from "./_component/ShowSection/ShowSection";
+import TrainSection from "./_component/TrainSection";
 
 const MainPage = () => {
   const { setIsAuthenticated, isAuthenticated } = useAuthStore();
   const {
     data: performances,
-    isPending,
-    isError
-  } = useQuery<PerformanceType[]>({
+    fetchNextPage,
+    isFetching,
+    isError,
+    error,
+    isPending
+  } = useInfiniteQuery({
     queryKey: ["performance", { list: true }],
-    queryFn: () => axios.get("/api/performance").then((res) => res.data)
+    queryFn: ({ pageParam }) => axios.get(`/api/performance?page=${pageParam}`).then((res) => res.data),
+    getNextPageParam: (lastPage) => (lastPage.nextCursor === -1 ? undefined : lastPage.nextCursor),
+    initialPageParam: 1,
+    select: (response) => response.pages.reduce((acc, { data }) => [...acc, ...data], [] as PerformanceType[])
   });
+
+  const { ref, inView } = useInView({
+    threshold: 0
+  });
+
+  useEffect(() => {
+    if (inView) fetchNextPage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView]);
 
   useEffect(() => {
     const checkAuthToken = () => {
@@ -28,21 +46,22 @@ const MainPage = () => {
     };
 
     checkAuthToken();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   if (isPending) return <LoadingPage />;
-  if (isError) throw new Error();
+  if (isError) throw new Error(error.message);
 
   return (
     <>
-      <section>
-        <TrainSwiper />
-      </section>
-      <section className="mt-10 mb-5 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {performances.map((performance) => (
-          <Show key={performance.id} performance={performance} />
-        ))}
-      </section>
+      <TrainSection />
+      <ShowSection performances={performances} />
+      {isFetching ? (
+        <Image className="mx-auto my-3" src="/loading.gif" width={50} height={50} alt="로딩이미지" />
+      ) : (
+        <div ref={ref}></div>
+      )}
+      <ScrollButtons />
     </>
   );
 };

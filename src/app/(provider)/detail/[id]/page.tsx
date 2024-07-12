@@ -61,6 +61,26 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
             alert("예약 완료되었걸랑요");
             setReserved(true);
           }
+        
+      const { data: session, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        console.log(sessionError);
+      }
+        
+      const userId = session.session?.user.id;
+      if (datas && userId) {
+        const { data: post, error } = await supabase
+          .from("reservation")
+          .insert({
+            title: datas.prfnm[0] as string,
+            post_id: datas.mt20id[0] as string,
+            date: datas.prfpdfrom[0] as string,
+            image_url: datas.poster[0] as string,
+            user_id: userId
+          })
+          .select("*");
+        if (error) {
+          console.log("error", error);
         }
       }
     };
@@ -108,10 +128,15 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
           setShowButton(true);
         }
       }
+      setLoading(false);
     };
 
     fetchData();
   }, [userInfo]);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   if (loading) {
     return <LoadingPage />;
