@@ -51,7 +51,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endDate }) => {
   return (
     <div className="flex space-x-4 text-xl justify-center p-1 bg-dark-red text-white rounded-lg shadow-lg">
       {isTimeLeftZero ? (
-        <div className="bg-white p-2 rounded-md shadow-inner">공 연 마 감</div>
+        <div className="p-2 rounded-md shadow-inner">공 연 마 감</div>
       ) : (
         <>
           <div className="p-2 rounded-md shadow-inner">공 연 마 감</div>
