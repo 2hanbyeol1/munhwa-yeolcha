@@ -28,7 +28,7 @@ const MainPage = () => {
     };
 
     checkAuthToken();
-  }, [isAuthenticated]);
+  }, []);
 
   if (isPending) return <LoadingPage />;
   if (isError) throw new Error();

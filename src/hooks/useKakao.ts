@@ -26,7 +26,7 @@ const useKakao = () => {
     const { error } = await supabase.auth.signOut();
     clearAuth();
     alert("로그아웃 되었습니다.");
-    router.push("/login");
+    router.push("/");
   };
 
   return { signInWithKakao, signOut };
