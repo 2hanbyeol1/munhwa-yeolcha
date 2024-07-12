@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
+// import { fetchUserProfile, updateUserProfile } from "";
+
+// interface ProfileFormProps {
+//   userId: string;
+// }
 
 const EditProfileForm: React.FC = () => {
   const ?? = useEffect(()=>{const ??? = async() => {await ;}})

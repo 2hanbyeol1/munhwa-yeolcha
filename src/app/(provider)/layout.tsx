@@ -10,7 +10,7 @@ const Layout = ({ children }: LayoutType) => {
     <Providers>
       <Header />
       <main className="bg-beige min-h-screen pt-32">
-        <div className="mx-auto max-w-[1024px] px-3">{children}</div>
+        <div className="mx-auto max-w-[1024px] px-5">{children}</div>
       </main>
     </Providers>
   );

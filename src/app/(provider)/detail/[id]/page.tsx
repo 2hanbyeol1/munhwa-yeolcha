@@ -1,53 +1,100 @@
 "use client";
 
 import Button from "@/components/Button";
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { PerformanceDetail } from "@/app/types/performance";
+import { IoCalendarClearOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
+import { IoIosTimer } from "react-icons/io";
+import { IoMapOutline } from "react-icons/io5";
+import { IoNotificationsOutline } from "react-icons/io5";
+import { GoHash } from "react-icons/go";
+import { createClient } from "../../../../supabase/client";
 
-const DetailPage = () => {
+const DetailPage = ({ params }: { params: { id: number } }) => {
+  const { id } = params;
+  const [datas, setDatas] = useState<PerformanceDetail>();
   const router = useRouter();
+  const supabase = createClient();
 
   const handleReserve = () => {
     alert("예약되었습니다");
+
+    const createPost = async () => {
+      const { data: session, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        console.log(sessionError);
+      }
+      const userId = session.session?.user.id;
+      if (datas && userId) {
+        const { data: post, error } = await supabase
+          .from("reservation")
+          .insert({
+            title: datas.prfnm[0],
+            post_id: datas.mt20id[0],
+            date: datas.prfpdfrom[0],
+            image_url: datas.poster[0],
+            user_id: userId
+          })
+          .select("*");
+        if (error) {
+          console.log("error", error);
+        }
+      }
+    };
+    createPost();
   };
   const handleGoBack = () => {
     router.push("/");
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`/api/performance/${id}`);
+      if (res) {
+        setDatas(res.data.dbs.db[0]);
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(datas);
   return (
     <>
       <div className="flex py-20">
-        <Image src="/princess.webp" alt="" width={480} height={300} />
+        {datas?.poster && <Image src={datas?.poster[0]} alt="" width={480} height={300} />}
         <div className="flex flex-col justify-between ml-8">
-          <div className="h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
-            <h2 className="text-4xl font-bold">인어공주</h2>
+          <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
+            <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
             <ul className="mt-7 text-lg">
-              <li className="flex mt-5">
-                <Image src="/icons/calendar.svg" alt="" width={30} height={30} />
-                <span className="ml-2">2024. 6. 22 - 8. 25</span>
+              <li className="flex alin mt-5">
+                <IoCalendarClearOutline size={30} />
+                <span className="ml-3">
+                  {datas?.prfpdfrom} - {datas?.prfpdfrom}
+                </span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_map.svg" alt="" width={30} height={30} />
-                <span className="ml-2">롯데마트 행복을 주는 가족극장</span>
+              <li className="flex items-center mt-5">
+                <IoMapOutline size={30} />
+                <span className="ml-3">{datas?.fcltynm}</span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_phone.svg" alt="" width={30} height={30} />
-                <span className="ml-2">031-245-1234</span>
+              <li className="flex items-center mt-5">
+                <IoNotificationsOutline size={30} />
+                <span className="ml-3">{datas?.prfage}</span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_volume.svg" alt="" width={30} height={30} />
-                <span className="ml-2">전체 관람가</span>
+              <li className="flex items-center mt-5">
+                <IoIosTimer size={30} />
+                <span className="ml-3">{datas?.prfruntime}</span>
               </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_hashtag.svg" alt="" width={30} height={30} />
-                <span className="ml-2">사랑</span>
+              <li className="flex items-center mt-5">
+                <IoPersonOutline size={30} />
+                <span className="ml-3">{datas?.prfcast}</span>
               </li>
-              <li className="mt-5">
-                <p>
-                  세계적인 명작을 재연한 고전 뮤지컬 인어공주~!!! 인간을 사랑한 인어 공주의 아름답고 애절한 사랑
-                  이야기~!!! 탐욕과 질투로 가득한 바다 마녀의 최후~!!!
-                </p>
+              <li className="flex items-center mt-5">
+                <GoHash size={30} />
+                <span className="ml-3">{datas?.genrenm}</span>
               </li>
             </ul>
           </div>
