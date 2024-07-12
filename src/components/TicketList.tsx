@@ -68,12 +68,14 @@ const TicketList = () => {
             >
               예약 내역
             </Link>
-            <Link
-              href={"/mypage/edit"}
-              className="border bg-green p-3 rounded-lg w-40 mb-1 font-bold text-[white] text-center"
-            >
-              회원정보 수정
-            </Link>
+            {flagProvider !== "" && flagProvider !== "kakao" ? (
+              <Link
+                href={"/mypage/edit"}
+                className="border bg-green p-3 rounded-lg w-40 mb-1 font-bold text-[white] text-center"
+              >
+                회원정보 수정
+              </Link>
+            ) : null}
             <button
               onClick={handleDeleteAccount}
               className="border bg-green p-3 rounded-lg w-40 font-bold text-[white]"
