@@ -30,6 +30,7 @@ const Header = () => {
   const handleLogoutClick = () => {
     signOut();
     router.push("/login");
+    toggleModal("로그아웃");
   };
 
   useEffect(() => {
