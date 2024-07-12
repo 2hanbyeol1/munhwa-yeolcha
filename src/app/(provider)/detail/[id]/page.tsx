@@ -13,11 +13,13 @@ import { IoMapOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { GoHash } from "react-icons/go";
 import { createClient } from "../../../../supabase/client";
+import LoadingPage from "@/app/loading";
 import CountdownTimer from "@/components/CountdownTimer";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const [datas, setDatas] = useState<PerformanceDetail>();
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
 
@@ -34,10 +36,10 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
         const { data: post, error } = await supabase
           .from("reservation")
           .insert({
-            title: datas.prfnm[0],
-            post_id: datas.mt20id[0],
-            date: datas.prfpdfrom[0],
-            image_url: datas.poster[0],
+            title: datas.prfnm[0] as string,
+            post_id: datas.mt20id[0] as string,
+            date: datas.prfpdfrom[0] as string,
+            image_url: datas.poster[0] as string,
             user_id: userId
           })
           .select("*");
@@ -58,9 +60,14 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
       if (res) {
         setDatas(res.data.dbs.db[0]);
       }
+      setLoading(false);
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <>
