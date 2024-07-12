@@ -36,10 +36,20 @@ const config: Config = {
           "0%": { transform: "rotate(-10deg)" },
           "50%": { transform: "rotate(10deg)" },
           "100%": { transform: "rotate(-10deg)" }
+        },
+        up: {
+          "0%": { opacity: "50%", transform: "translateY(0px)" },
+          "100%": { opacity: "100%", transform: "translateY(-15px)" }
+        },
+        down: {
+          "0%": { opacity: "50%", transform: "translateY(0px)" },
+          "100%": { opacity: "100%", transform: "translateY(15px)" }
         }
       },
       animation: {
-        swing: "swing 1.3s ease-in-out infinite"
+        swing: "swing 1.3s ease-in-out infinite",
+        up: "up 0.7s linear infinite",
+        down: "down 0.7s linear infinite"
       }
     }
   },
