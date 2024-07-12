@@ -13,6 +13,7 @@ import { IoMapOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { GoHash } from "react-icons/go";
 import { createClient } from "../../../../supabase/client";
+import CountdownTimer from "@/components/CountdownTimer";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { id } = params;
@@ -61,42 +62,55 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
     fetchData();
   }, []);
 
-  console.log(datas);
   return (
     <>
       <div className="flex py-20">
-        {datas?.poster && <Image src={datas?.poster[0]} alt="" width={480} height={300} />}
+        {datas?.poster && (
+          <div>
+            <Image src={datas?.poster[0]} alt="" width={480} height={300} />
+          </div>
+        )}
         <div className="flex flex-col justify-between ml-8">
           <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
-            <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
-            <ul className="mt-7 text-lg">
-              <li className="flex alin mt-5">
-                <IoCalendarClearOutline size={30} />
-                <span className="ml-3">
-                  {datas?.prfpdfrom} - {datas?.prfpdfrom}
-                </span>
-              </li>
-              <li className="flex items-center mt-5">
-                <IoMapOutline size={30} />
-                <span className="ml-3">{datas?.fcltynm}</span>
-              </li>
-              <li className="flex items-center mt-5">
-                <IoNotificationsOutline size={30} />
-                <span className="ml-3">{datas?.prfage}</span>
-              </li>
-              <li className="flex items-center mt-5">
-                <IoIosTimer size={30} />
-                <span className="ml-3">{datas?.prfruntime}</span>
-              </li>
-              <li className="flex items-center mt-5">
-                <IoPersonOutline size={30} />
-                <span className="ml-3">{datas?.prfcast}</span>
-              </li>
-              <li className="flex items-center mt-5">
-                <GoHash size={30} />
-                <span className="ml-3">{datas?.genrenm}</span>
-              </li>
-            </ul>
+            <div className="flex flex-col justify-between h-full">
+              <div>
+                <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
+                <ul className="mt-7 text-lg">
+                  <li className="flex alin mt-5">
+                    <IoCalendarClearOutline size={30} />
+                    <span className="ml-3">
+                      {datas?.prfpdfrom} - {datas?.prfpdto}
+                    </span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <IoMapOutline size={30} />
+                    <span className="ml-3">{datas?.fcltynm}</span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <IoNotificationsOutline size={30} />
+                    <span className="ml-3">{datas?.prfage}</span>
+                  </li>
+                  {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
+                    <li className="flex items-center mt-5">
+                      <IoIosTimer size={30} />
+                      <span className="ml-3">{datas.prfruntime.join(", ")}</span>
+                    </li>
+                  )}
+
+                  <li className="flex items-center mt-5">
+                    <IoPersonOutline size={30} />
+                    <span className="ml-3">{datas?.prfcast}</span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <GoHash size={30} />
+                    <span className="ml-3">{datas?.genrenm}</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <CountdownTimer endDate={String(datas?.prfpdto[0])} />
+              </div>
+            </div>
           </div>
           <div className="mt-7 text-center">
             <Button
