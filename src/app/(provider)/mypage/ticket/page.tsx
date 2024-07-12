@@ -83,8 +83,8 @@ const MyTicketingListPage = () => {
   return (
     <>
       <span>
-        <div className="flex justify-between gap-5 py-[10px]">
-          <span className="flex justify-center items-center w-[200px] h-[50px] rounded-lg font-bold text-green text-[30px]">
+        <div className="flex justify-between gap-5 py-[10px] border-b border-black">
+          <span className="flex justify-center items-center w-[200px] h-[50px] font-bold text-green text-[30px]">
             전체 예약 내역
           </span>
           <select className="border rounded-md bg-white font-custom" onChange={handleSortChange} value={sortOrder}>
@@ -97,24 +97,28 @@ const MyTicketingListPage = () => {
         <div className="">
           <div className="flex flex-col">
             {sortedTickets?.map((ticket, index) => (
-              <div key={index} className="flex items-center p-[10px] border-black border-b border-t ">
+              <div key={index} className="flex items-center p-[10px] border-black border-b">
                 <div>
                   <div>
                     <div>공연 날짜 : {formatDate(ticket.date)}</div>
                     <div className="text-[10px] text-[gray] pt-2 pb-3">예약번호:{ticket.post_id}</div>
                   </div>
                   <Link href={`/detail/${ticket.post_id}`}>
-                    <Image src={ticket.image_url} alt={ticket.title} width={200} height={100} />
+                    <Image src={ticket.image_url} alt={ticket.title} width={100} height={100} />
                   </Link>
                 </div>
                 <div className="flex flex-col ml-4">
                   <div className="font-bold pb-[10px] text-[25px] truncate max-w-xs font-custom">{ticket.title}</div>
                   <div className="text-[10px] text-[gray] pb-1">예약 날짜 : {formatDate(ticket.created_at)}</div>
                   <div className={ticket.reserved ? "text-blue" : "text-red-500"}>
-                    {ticket.reserved ? "예약되었다람쥐" : "취소되었다랑어"}
+                    {ticket.reserved ? "예약되었슴다" : "취소되었슴다다익선"}
+                    {ticket.reserved && (
+                      <div className="">
+                        <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
+                      </div>
+                    )}
                   </div>
                 </div>
-                <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
               </div>
             ))}
           </div>
