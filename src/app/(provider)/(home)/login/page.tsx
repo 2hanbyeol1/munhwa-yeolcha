@@ -5,8 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import useAuthStore from "@/zustand/authStore";
 
 const LoginPage = () => {
+  const { setProvider } = useAuthStore();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
@@ -38,6 +40,9 @@ const LoginPage = () => {
       }
 
       if (response.status === 200) {
+        const userData = await response.json();
+        // console.log("login userData =>", userData);
+        setProvider(userData.app_metadata.provider); // user의 provider저장
         router.push("/");
       }
     } catch (error: any) {
