@@ -6,11 +6,14 @@ import useKakao from "@/hooks/useKakao";
 import useAuthStore from "@/zustand/authStore";
 import Image from "next/image";
 import Button from "./Button";
+import Modal from "./Modal";
+import useModalStore from "@/zustand/modalStore";
 
 const Header = () => {
   const router = useRouter();
   const { signOut } = useKakao();
   const { isAuthenticated, userInfo, setIsAuthenticated, setAuth } = useAuthStore();
+  const { toggleModal } = useModalStore();
 
   const handelGoHomeClick = () => {
     router.push("/");
@@ -21,24 +24,24 @@ const Header = () => {
   };
 
   const handelGoMyPageClick = () => {
-    router.push("/mypage/edit");
+    router.push("/mypage/ticket");
   };
 
   const handleLogoutClick = () => {
     signOut();
-    setIsAuthenticated(false);
     router.push("/login");
   };
 
   useEffect(() => {
     const checkAuthToken = () => {
       const cookies = document.cookie.split("; ");
-      const authToken = cookies.find((cookie) => cookie.startsWith("sb-awglleigixtjjdlmbhrh-auth-token.0"));
+      const authToken = cookies.find((cookie) => cookie.startsWith("sb-awglleigixtjjdlmbhrh-auth-token"));
+
       setIsAuthenticated(!!authToken);
     };
 
     checkAuthToken();
-  }, [setIsAuthenticated]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     fetch("http://localhost:3000/api/auth/me").then(async (response) => {
@@ -49,7 +52,7 @@ const Header = () => {
         setAuth(user);
       }
     });
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <header className="fixed top-0 left-0 flex-col w-full z-50">
@@ -66,7 +69,12 @@ const Header = () => {
         {isAuthenticated ? (
           <div>
             <Button buttonName={"마이페이지"} onClick={handelGoMyPageClick} />
-            <Button buttonName={"로그아웃"} onClick={handleLogoutClick} />
+            <Button buttonName={"로그아웃"} onClick={() => toggleModal("로그아웃")} />
+            <Modal id="로그아웃">
+              <p>정말 로그아웃 하시겠습니까?</p>
+              <Button buttonName="예" onClick={handleLogoutClick} bgColor={"bg-coral"} />
+              <Button buttonName="아니오" onClick={() => toggleModal("로그아웃")} bgColor={"bg-[#696060]"} />
+            </Modal>
           </div>
         ) : (
           <Button buttonName={"접속하기"} onClick={handleGoLoginClick} />

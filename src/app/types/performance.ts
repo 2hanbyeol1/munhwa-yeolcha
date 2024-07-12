@@ -1,7 +1,12 @@
-export type Performance = {
-  shprfnm: string[];
-  prfnm: string[];
+export type PerformanceDetail = {
   mt20id: string[];
-  prfpdfrom: string[];
+  prfnm: string[];
+  prfpdfrom: number[];
+  prfpdto: number[];
+  prfage: string[];
   poster: string[];
+  fcltynm: string[];
+  prfcast: string[];
+  genrenm: string[];
+  prfruntime: string[];
 };

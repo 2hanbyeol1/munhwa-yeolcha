@@ -2,15 +2,22 @@
 
 import Button from "@/components/Button";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Performance } from "@/app/types/performance";
+import { PerformanceDetail } from "@/app/types/performance";
+import { IoCalendarClearOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
+import { IoIosTimer } from "react-icons/io";
+import { IoMapOutline } from "react-icons/io5";
+import { IoNotificationsOutline } from "react-icons/io5";
+import { GoHash } from "react-icons/go";
 import { createClient } from "../../../../supabase/client";
+import CountdownTimer from "@/components/CountdownTimer";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { id } = params;
-  const [datas, setDatas] = useState<Performance>();
+  const [datas, setDatas] = useState<PerformanceDetail>();
   const router = useRouter();
   const supabase = createClient();
 
@@ -47,7 +54,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`/api/${id}`);
+      const res = await axios.get(`/api/performance/${id}`);
       if (res) {
         setDatas(res.data.dbs.db[0]);
       }
@@ -58,38 +65,52 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   return (
     <>
       <div className="flex py-20">
-        <Image src="/princess.webp" alt="" width={480} height={300} />
+        {datas?.poster && (
+          <div>
+            <Image src={datas?.poster[0]} alt="" width={480} height={300} />
+          </div>
+        )}
         <div className="flex flex-col justify-between ml-8">
           <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
-            <h2 className="text-4xl font-bold">인어공주</h2>
-            <ul className="mt-7 text-lg">
-              <li className="flex mt-5">
-                <Image src="/icons/calendar.svg" alt="" width={30} height={30} />
-                <span className="ml-2">2024. 6. 22 - 8. 25</span>
-              </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_map.svg" alt="" width={30} height={30} />
-                <span className="ml-2">롯데마트 행복을 주는 가족극장</span>
-              </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_phone.svg" alt="" width={30} height={30} />
-                <span className="ml-2">031-245-1234</span>
-              </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_volume.svg" alt="" width={30} height={30} />
-                <span className="ml-2">전체 관람가</span>
-              </li>
-              <li className="flex mt-5">
-                <Image src="/icons/icon_hashtag.svg" alt="" width={30} height={30} />
-                <span className="ml-2">사랑</span>
-              </li>
-              <li className="mt-5">
-                <p>
-                  세계적인 명작을 재연한 고전 뮤지컬 인어공주~!!! 인간을 사랑한 인어 공주의 아름답고 애절한 사랑
-                  이야기~!!! 탐욕과 질투로 가득한 바다 마녀의 최후~!!!
-                </p>
-              </li>
-            </ul>
+            <div className="flex flex-col justify-between h-full">
+              <div>
+                <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
+                <ul className="mt-7 text-lg">
+                  <li className="flex alin mt-5">
+                    <IoCalendarClearOutline size={30} />
+                    <span className="ml-3">
+                      {datas?.prfpdfrom} - {datas?.prfpdto}
+                    </span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <IoMapOutline size={30} />
+                    <span className="ml-3">{datas?.fcltynm}</span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <IoNotificationsOutline size={30} />
+                    <span className="ml-3">{datas?.prfage}</span>
+                  </li>
+                  {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
+                    <li className="flex items-center mt-5">
+                      <IoIosTimer size={30} />
+                      <span className="ml-3">{datas.prfruntime.join(", ")}</span>
+                    </li>
+                  )}
+
+                  <li className="flex items-center mt-5">
+                    <IoPersonOutline size={30} />
+                    <span className="ml-3">{datas?.prfcast}</span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <GoHash size={30} />
+                    <span className="ml-3">{datas?.genrenm}</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <CountdownTimer endDate={String(datas?.prfpdto[0])} />
+              </div>
+            </div>
           </div>
           <div className="mt-7 text-center">
             <Button

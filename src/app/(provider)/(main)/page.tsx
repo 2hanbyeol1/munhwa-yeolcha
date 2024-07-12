@@ -1,6 +1,7 @@
 "use client";
 import LoadingPage from "@/app/loading";
 import { PerformanceType } from "@/types/performance";
+import useAuthStore from "@/zustand/authStore";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
@@ -10,6 +11,7 @@ import ShowSection from "./_component/ShowSection/ShowSection";
 import TrainSection from "./_component/TrainSection";
 
 const MainPage = () => {
+  const { setIsAuthenticated, isAuthenticated } = useAuthStore();
   const {
     data: performances,
     fetchNextPage,
@@ -33,6 +35,17 @@ const MainPage = () => {
     if (inView) fetchNextPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
+
+  useEffect(() => {
+    const checkAuthToken = () => {
+      const cookies = document.cookie.split("; ");
+      const authToken = cookies.find((cookie) => cookie.startsWith("sb-awglleigixtjjdlmbhrh-auth-token"));
+
+      setIsAuthenticated(!!authToken);
+    };
+
+    checkAuthToken();
+  }, [isAuthenticated]);
 
   if (isPending) return <LoadingPage />;
   if (isError) throw new Error(error.message);

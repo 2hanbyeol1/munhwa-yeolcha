@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        custom: ["TheJamsil5Bold"]
+      },
       aspectRatio: {
         poster: "9 / 12"
       },
@@ -15,6 +18,7 @@ const config: Config = {
         "dark-red": "#973931",
         coral: "#E5514F",
         beige: "#F0DCC6",
+        "prompt-green": "#00FF00",
         green: "#1A764F",
         blue: "#007bd1",
         "withered-diamond": "#76939E",
