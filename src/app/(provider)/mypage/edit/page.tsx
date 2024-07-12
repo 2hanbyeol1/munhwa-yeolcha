@@ -1,8 +1,6 @@
 import EditProfileForm from "@/components/EditProfileForm";
-import { createClient } from "@/supabase/server";
 import React from "react";
-
-const supabase = createClient(NEXT_PUBLIC_SUPABASE_URL, SUPABASE_ANON_KEY);
+import { createClient } from "@supabase/supabase-js";
 
 const Edit = () => {
   return (
