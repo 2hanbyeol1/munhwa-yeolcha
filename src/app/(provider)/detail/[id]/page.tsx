@@ -61,26 +61,6 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
             alert("예약 완료되었걸랑요");
             setReserved(true);
           }
-        
-      const { data: session, error: sessionError } = await supabase.auth.getSession();
-      if (sessionError) {
-        console.log(sessionError);
-      }
-        
-      const userId = session.session?.user.id;
-      if (datas && userId) {
-        const { data: post, error } = await supabase
-          .from("reservation")
-          .insert({
-            title: datas.prfnm[0] as string,
-            post_id: datas.mt20id[0] as string,
-            date: datas.prfpdfrom[0] as string,
-            image_url: datas.poster[0] as string,
-            user_id: userId
-          })
-          .select("*");
-        if (error) {
-          console.log("error", error);
         }
       }
     };
@@ -128,15 +108,9 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
           setShowButton(true);
         }
       }
-      setLoading(false);
     };
-
     fetchData();
   }, [userInfo]);
-
-  if (loading) {
-    return <LoadingPage />;
-  }
 
   if (loading) {
     return <LoadingPage />;
@@ -145,44 +119,48 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   return (
     <>
       <div className="flex py-20">
-        {datas?.poster && (
-          <div>
-            <Image src={datas?.poster[0]} alt="" width={480} height={300} />
-          </div>
-        )}
+        {datas?.poster && <Image src={datas?.poster[0]} alt="" width={480} height={300} />}
         <div className="flex flex-col justify-between ml-8">
           <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
-            <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
-            <ul className="mt-7 text-lg">
-              <li className="flex alin mt-5">
-                <IoCalendarClearOutline size={30} />
-                <span className="ml-3">
-                  {datas?.prfpdfrom} - {datas?.prfpdto}
-                </span>
-              </li>
-              <li className="flex items-center mt-5">
-                <IoMapOutline size={30} />
-                <span className="ml-3">{datas?.fcltynm}</span>
-              </li>
-              <li className="flex items-center mt-5">
-                <IoNotificationsOutline size={30} />
-                <span className="ml-3">{datas?.prfage}</span>
-              </li>
-              {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
-                <li className="flex items-center mt-5">
-                  <IoIosTimer size={30} />
-                  <span className="ml-3">{datas.prfruntime.join(", ")}</span>
-                </li>
-              )}
-              <li className="flex items-center mt-5">
-                <IoPersonOutline size={30} />
-                <span className="ml-3">{datas?.prfcast}</span>
-              </li>
-              <li className="flex items-center mt-5">
-                <GoHash size={30} />
-                <span className="ml-3">{datas?.genrenm}</span>
-              </li>
-            </ul>
+            <div className="flex flex-col justify-between h-full">
+              <div>
+                <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
+                <ul className="mt-7 text-lg">
+                  <li className="flex alin mt-5">
+                    <IoCalendarClearOutline size={30} />
+                    <span className="ml-3">
+                      {datas?.prfpdfrom} - {datas?.prfpdto}
+                    </span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <IoMapOutline size={30} />
+                    <span className="ml-3">{datas?.fcltynm}</span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <IoNotificationsOutline size={30} />
+                    <span className="ml-3">{datas?.prfage}</span>
+                  </li>
+                  {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
+                    <li className="flex items-center mt-5">
+                      <IoIosTimer size={30} />
+                      <span className="ml-3">{datas.prfruntime.join(", ")}</span>
+                    </li>
+                  )}
+
+                  <li className="flex items-center mt-5">
+                    <IoPersonOutline size={30} />
+                    <span className="ml-3">{datas?.prfcast}</span>
+                  </li>
+                  <li className="flex items-center mt-5">
+                    <GoHash size={30} />
+                    <span className="ml-3">{datas?.genrenm}</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <CountdownTimer endDate={String(datas?.prfpdto[0])} />
+              </div>
+            </div>
           </div>
           <div className="mt-7 text-center">
             <Button
@@ -193,7 +171,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
               paddingY={"py-3"}
               marginY={"my-0"}
               onClick={handleGoBack}
-            ></Button>
+            />
             {showButton ? (
               <Button
                 buttonName={reserved ? "예약 완료" : "예약하기"}
