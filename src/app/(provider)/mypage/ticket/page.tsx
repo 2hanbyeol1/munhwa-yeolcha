@@ -69,7 +69,7 @@ const MyTicketingListPage = () => {
       alert("예약 취소에 실패했습니다.");
       return;
     }
-    alert("취소었습니다.");
+    alert("취소되었습니다.");
     fetchData();
   };
 
@@ -87,7 +87,9 @@ const MyTicketingListPage = () => {
         </div>
       </span>
       <div>
-        <div>
+        {sortedTickets.length === 0 ? (
+          <div className="flex justify-center items-center h-[100px] text-gray-500">예약 내역이 없습니다.</div>
+        ) : (
           <div className="flex flex-col">
             {sortedTickets?.map((ticket, index) => (
               <div key={index} className="flex items-center p-[10px] border-black border-b">
@@ -104,7 +106,7 @@ const MyTicketingListPage = () => {
                   <div className="font-bold pb-[10px] text-[25px] truncate max-w-xs font-custom">{ticket.title}</div>
                   <div className="text-[10px] text-[gray] pb-1">예약 날짜 : {formatDate(ticket.created_at)}</div>
                   <div className={ticket.reserved ? "text-blue" : "text-red-500"}>
-                    {ticket.reserved ? "예약되었슴다람쥐" : "취소되었슴다랑어"}
+                    {ticket.reserved ? "예약되었습니다." : "취소되었습니다."}
                     {ticket.reserved && (
                       <div>
                         <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
@@ -115,7 +117,7 @@ const MyTicketingListPage = () => {
               </div>
             ))}
           </div>
-        </div>
+        )}
       </div>
     </>
   );

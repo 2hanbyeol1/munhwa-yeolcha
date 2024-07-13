@@ -15,7 +15,6 @@ const Modal = ({ id, children }: ModalType) => {
 
   const stopBubble = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    e.preventDefault();
   };
 
   return (
