@@ -50,6 +50,7 @@ const TicketList = () => {
         alert(`회원탈퇴 실패: ${message}`);
       }
     } catch (error) {
+      console.log(error);
       alert("회원탈퇴 도중 에러가 생겼습니다.");
     }
   };
