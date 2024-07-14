@@ -2,9 +2,9 @@
 import useAuthStore from "@/zustand/authStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const TicketList = () => {
+const SideBar = () => {
   const [clickButton, setClickButton] = useState("ticket");
 
   const handleLinkClick = (link: string) => {
@@ -49,47 +49,37 @@ const TicketList = () => {
         alert(`회원탈퇴 실패: ${message}`);
       }
     } catch (error) {
-      console.log(error);
       alert("회원탈퇴 도중 에러가 생겼습니다.");
     }
   };
 
   return (
-    <>
-      <div className="flex flex-col items-end pt-[80px]">
-        <div className="grid grid-cols-2">
-          <div className="flex flex-col justify-center w-[100px]">
-            <Link
-              href={"/mypage/ticket"}
-              className={`p-3 rounded-lg w-40 mb-1 font-bold text-center ${
-                clickButton === "ticket" ? "bg-white text-green" : "bg-green text-white"
-              }`}
-              onClick={() => handleLinkClick("ticket")}
-            >
-              예약 내역
-            </Link>
-            {flagProvider !== "" && flagProvider !== "kakao" ? (
-              <Link
-                href={"/mypage/edit"}
-                className={`p-3 rounded-lg w-40 mb-1 font-bold text-center ${
-                  clickButton === "edit" ? "bg-white text-green" : "bg-green text-white"
-                }`}
-                onClick={() => handleLinkClick("edit")}
-              >
-                회원정보 수정
-              </Link>
-            ) : null}
-            <button
-              onClick={handleDeleteAccount}
-              className="border bg-green p-3 rounded-lg w-40 font-bold text-[white]"
-            >
-              회원 탈퇴
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
+    <div className="flex flex-col justify-start items-start gap-2">
+      <Link
+        href={"/mypage/ticket"}
+        className={`p-3 rounded-lg w-40 font-bold text-center ${
+          clickButton === "ticket" ? "bg-white text-green" : "bg-green text-white"
+        }`}
+        onClick={() => handleLinkClick("ticket")}
+      >
+        예약 내역
+      </Link>
+      {flagProvider !== "" && flagProvider !== "kakao" ? (
+        <Link
+          href={"/mypage/edit"}
+          className={`p-3 rounded-lg w-40 font-bold text-center ${
+            clickButton === "edit" ? "bg-white text-green" : "bg-green text-white"
+          }`}
+          onClick={() => handleLinkClick("edit")}
+        >
+          회원정보 수정
+        </Link>
+      ) : null}
+      <button onClick={handleDeleteAccount} className="border bg-green p-3 rounded-lg w-40 font-bold text-[white]">
+        회원 탈퇴
+      </button>
+    </div>
   );
 };
 
-export default TicketList;
+export default SideBar;

@@ -8,8 +8,8 @@ import axios from "axios";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import ShowSection from "./_component/ShowSection/ShowSection";
-import TrainSection from "./_component/TrainSection";
+import ShowSection from "./_components/ShowSection/ShowSection";
+import TrainSection from "./_components/TrainSection";
 
 const MainPage = () => {
   const { setIsAuthenticated, isAuthenticated } = useAuthStore();

@@ -1,4 +1,4 @@
-import Show from "@/app/(provider)/(main)/_component/ShowSection/Show";
+import Show from "@/app/(provider)/(main)/_components/ShowSection/Show";
 import { PerformanceType } from "@/types/performance";
 
 interface ShowSectionType {

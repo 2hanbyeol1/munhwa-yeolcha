@@ -1,4 +1,4 @@
-import React from "react";
+import { MouseEvent } from "react";
 
 interface ButtonProps {
   buttonName: string;
@@ -9,7 +9,7 @@ interface ButtonProps {
   buttonWidth?: string;
   opacity?: string;
   hover?: boolean;
-  onClick: () => void;
+  onClick: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button = ({
