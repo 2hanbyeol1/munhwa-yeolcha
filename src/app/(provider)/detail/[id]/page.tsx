@@ -40,7 +40,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
         .single();
 
       if (confirm) {
-        alert("이미 예약 완료된 공연이걸랑요");
+        alert("이미 예약 완료된 공연입니다.");
         if (confirm.reserved) {
           setButtonText("예약 완료");
         }
@@ -59,7 +59,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
           if (insertError) {
             console.log("insertError", insertError);
           } else {
-            alert("예약 완료되었걸랑요");
+            alert("예약되었습니다.");
             toggleModal("reserve");
             setReserved(true);
           }
@@ -115,7 +115,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
 
   const handleReserveModal = async () => {
     if (!userInfo) {
-      alert("로그인된 유저만 사용할 수 있습니다");
+      alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
       router.push("/login");
       return;
     }
