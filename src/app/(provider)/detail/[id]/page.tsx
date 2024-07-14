@@ -13,12 +13,10 @@ import { IoMapOutline } from "react-icons/io5";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { GoHash } from "react-icons/go";
 import { createClient } from "../../../../supabase/client";
-import LoadingPage from "@/app/loading";
 import useAuthStore from "@/zustand/authStore";
 import CountdownTimer from "@/components/CountdownTimer";
 import Modal from "@/components/Modal";
 import useModalStore from "@/zustand/modalStore";
-import Input from "@/components/Input";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { userInfo } = useAuthStore();
@@ -45,7 +43,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
         .single();
 
       if (confirm) {
-        alert("이미 예약 완료된 공연이걸랑요");
+        alert("이미 예약 완료된 공연입니다.");
         if (confirm.reserved) {
           setButtonText("예약 완료");
         }
@@ -64,7 +62,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
           if (insertError) {
             console.log("insertError", insertError);
           } else {
-            alert("예약 완료되었걸랑요");
+            alert("예약되었습니다.");
             toggleModal("reserve");
             setReserved(true);
           }
@@ -120,21 +118,34 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   }, [userInfo]);
 
   const handleReserveModal = () => {
-    const createPost2 = async () => {
-      const { data: confirm, error: checkError } = await supabase
-        .from("reservation")
-        .select()
-        .eq("user_id", userInfo?.id as string)
-        .eq("post_id", datas?.mt20id[0] as string)
-        .eq("reserved", true)
-        .single();
-      if (confirm) {
-        alert("이미 예약 완료된 공연이걸랑요");
+    const checkSession = async () => {
+      const {
+        data: { session },
+        error: sessionError
+      } = await supabase.auth.getSession();
+
+      if (!session) {
+        alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+        router.push("/login");
       } else {
-        toggleModal("reserve");
+        const createPost2 = async () => {
+          const { data: confirm, error: checkError } = await supabase
+            .from("reservation")
+            .select()
+            .eq("user_id", userInfo?.id as string)
+            .eq("post_id", datas?.mt20id[0] as string)
+            .eq("reserved", true)
+            .single();
+          if (confirm) {
+            alert("이미 예약 완료된 공연입니다.");
+          } else {
+            toggleModal("reserve");
+          }
+        };
+        createPost2();
       }
     };
-    createPost2();
+    checkSession();
   };
 
   return (
