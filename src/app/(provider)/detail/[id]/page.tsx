@@ -26,8 +26,8 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
   const supabase = createClient();
   const [showButton, setShowButton] = useState(true);
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date();
+  const [date, setDate] = useState(today.toISOString().split("T")[0]);
 
   const handleReserve = () => {
     const createPost = async () => {
@@ -101,9 +101,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
       }
 
       if (datas?.prfpdto) {
-        const today = new Date();
         const performanceDate = new Date(datas.prfpdto[0]);
-
         if (performanceDate < today) {
           setShowButton(false);
         } else {
@@ -215,7 +213,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  min={today}
+                  min={datas?.prfpdfrom[0].replaceAll(".", "-")}
                   max={datas?.prfpdto[0].replaceAll(".", "-")}
                   className="bg-transparent border border-gray-300 rounded px-2 py-1 mb-4"
                 />
