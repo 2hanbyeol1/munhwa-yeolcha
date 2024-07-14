@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState<string>("");
@@ -42,7 +42,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-20">
+    <div className="flex items-center justify-center">
       <div className="rounded-3xl w-full max-w-lg h-[550px] border-4 border-dark-red shadow-2xl flex flex-col gap-5 items-center justify-center">
         <h2 className="text-4xl font-bold mb-8 text-center ">멤 바 등 록</h2>
         <div className="mb-6 space-y-6">
