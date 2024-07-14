@@ -113,123 +113,123 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
-  const handleReserveModal = () => {
-    const createPost2 = async () => {
-      const { data: confirm, error: checkError } = await supabase
-        .from("reservation")
-        .select()
-        .eq("user_id", userInfo?.id as string)
-        .eq("post_id", datas?.mt20id[0] as string)
-        .eq("reserved", true)
-        .single();
-      if (confirm) {
-        alert("이미 예약 완료된 공연이걸랑요");
-      } else {
-        toggleModal("reserve");
-      }
-    };
-    createPost2();
+  const handleReserveModal = async () => {
+    if (!userInfo) {
+      alert("로그인된 유저만 사용할 수 있습니다");
+      router.push("/login");
+      return;
+    }
+    const { data: confirm, error: checkError } = await supabase
+      .from("reservation")
+      .select()
+      .eq("user_id", userInfo?.id as string)
+      .eq("post_id", datas?.mt20id[0] as string)
+      .eq("reserved", true)
+      .single();
+    if (confirm) {
+      alert("이미 예약 완료된 공연이걸랑요");
+    } else {
+      toggleModal("reserve");
+    }
   };
 
   return (
-    <>
-      <div className="flex flex-col items-center gap-3 mb-10 md:flex-row">
-        {datas?.poster && (
-          <Image
-            className="max-h-[calc(100vh-12.5rem)] object-contain"
-            src={datas?.poster[0]}
-            alt={datas?.prfnm[0]}
-            width={480}
-            height={300}
-          />
-        )}
-        <div className="flex flex-col justify-between">
-          <div className="h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail max-w-[480px]">
-            <div className="flex flex-col justify-between h-full">
-              <div>
-                <h2 className="text-3xl font-bold truncate-2">{datas?.prfnm[0]}</h2>
-                <ul className="flex flex-col gap-3 mt-7 text-lg">
-                  <li className="flex items-center">
-                    <IoCalendarClearOutline size={25} />
-                    <span className="ml-3">
-                      {datas?.prfpdfrom[0]} - {datas?.prfpdto[0]}
-                    </span>
-                  </li>
-                  <li className="flex items-center">
-                    <IoMapOutline size={25} />
-                    <span className="ml-3">{datas?.fcltynm[0]}</span>
-                  </li>
-                  <li className="flex items-center">
-                    <IoNotificationsOutline size={25} />
-                    <span className="ml-3">{datas?.prfage[0]}</span>
-                  </li>
-                  <li className="flex items-center">
-                    <IoIosTimer size={25} />
-                    <span className="ml-3">{datas?.prfruntime[0] === " " ? "-" : datas?.prfruntime[0]}</span>
-                  </li>
-                  <li className="flex items-center overflow-auto">
-                    <IoPersonOutline size={25} />
-                    <span className="ml-3">{datas?.prfcast[0] === " " ? "-" : datas?.prfcast[0]}</span>
-                  </li>
-                  <li className="flex items-center">
-                    <GoHash size={25} />
-                    <span className="ml-3">{datas?.genrenm[0]}</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="mt-7">
-                <CountdownTimer endDate={String(datas?.prfpdto[0])} />
-              </div>
+    <div className="flex flex-col items-center gap-3 mb-10 md:flex-row">
+      {datas?.poster && (
+        <Image
+          className="max-h-[calc(100vh-12.5rem)] object-contain"
+          src={datas?.poster[0]}
+          alt={datas?.prfnm[0]}
+          width={480}
+          height={300}
+        />
+      )}
+      <div className="flex flex-col justify-between">
+        <div className="h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail max-w-[480px]">
+          <div className="flex flex-col justify-between h-full">
+            <div>
+              <h2 className="text-3xl font-bold truncate-2">{datas?.prfnm[0]}</h2>
+              <ul className="flex flex-col gap-3 mt-7 text-lg">
+                <li className="flex items-center">
+                  <IoCalendarClearOutline size={25} />
+                  <span className="ml-3">
+                    {datas?.prfpdfrom[0]} - {datas?.prfpdto[0]}
+                  </span>
+                </li>
+                <li className="flex items-center">
+                  <IoMapOutline size={25} />
+                  <span className="ml-3">{datas?.fcltynm[0]}</span>
+                </li>
+                <li className="flex items-center">
+                  <IoNotificationsOutline size={25} />
+                  <span className="ml-3">{datas?.prfage[0]}</span>
+                </li>
+                <li className="flex items-center">
+                  <IoIosTimer size={25} />
+                  <span className="ml-3">{datas?.prfruntime[0] === " " ? "-" : datas?.prfruntime[0]}</span>
+                </li>
+                <li className="flex items-center overflow-auto">
+                  <IoPersonOutline size={25} />
+                  <span className="ml-3">{datas?.prfcast[0] === " " ? "-" : datas?.prfcast[0]}</span>
+                </li>
+                <li className="flex items-center">
+                  <GoHash size={25} />
+                  <span className="ml-3">{datas?.genrenm[0]}</span>
+                </li>
+              </ul>
+            </div>
+            <div className="mt-7">
+              <CountdownTimer endDate={String(datas?.prfpdto[0])} />
             </div>
           </div>
-          <div className="mt-7 flex">
+        </div>
+        <div className="mt-7 flex">
+          <Button
+            buttonName={"뒤로가기"}
+            buttonWidth={"w-1/2"}
+            bgColor={"bg-[#FFFFFF]"}
+            textColor={"text-[#1A764F]"}
+            paddingY={"py-3"}
+            marginY={"my-0"}
+            onClick={handleGoBack}
+          />
+          {showButton ? (
             <Button
-              buttonName={"뒤로가기"}
+              buttonName={reserved ? "예약 완료" : "예약하기"}
               buttonWidth={"w-1/2"}
-              bgColor={"bg-[#FFFFFF]"}
-              textColor={"text-[#1A764F]"}
+              bgColor={reserved ? "bg-[#BBBBBB]" : "bg-[#1A764F]"}
               paddingY={"py-3"}
               marginY={"my-0"}
-              onClick={handleGoBack}
+              onClick={handleReserveModal}
+              opacity={reserved ? "opacity-70" : "opacity-100"}
+              hover={reserved ? false : true}
             />
-            {showButton ? (
+          ) : (
+            ""
+          )}
+          <Modal id="reserve">
+            <div className="flex flex-col p-10 justify-center items-center">
+              <p className="mb-4 text-3xl">공연일</p>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                min={datas?.prfpdfrom[0].replaceAll(".", "-")}
+                max={datas?.prfpdto[0].replaceAll(".", "-")}
+                className="bg-transparent border border-gray-300 rounded px-2 py-1 mb-4"
+              />
               <Button
-                buttonName={reserved ? "예약 완료" : "예약하기"}
-                buttonWidth={"w-1/2"}
-                bgColor={reserved ? "bg-[#BBBBBB]" : "bg-[#1A764F]"}
+                buttonName={"예약하기"}
+                buttonWidth={"w-2/4"}
                 paddingY={"py-3"}
                 marginY={"my-0"}
-                onClick={handleReserveModal}
-                opacity={reserved ? "opacity-70" : "opacity-100"}
-                hover={reserved ? false : true}
+                onClick={handleReserve}
               />
-            ) : (
-              ""
-            )}
-            <Modal id="reserve">
-              <div className="flex flex-col p-10 justify-center items-center">
-                <p className="mb-4 text-3xl">공연일</p>
-                <input
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  min={datas?.prfpdfrom[0].replaceAll(".", "-")}
-                  max={datas?.prfpdto[0].replaceAll(".", "-")}
-                  className="bg-transparent border border-gray-300 rounded px-2 py-1 mb-4"
-                />
-                <Button
-                  buttonName={"예약하기"}
-                  buttonWidth={"w-2/4"}
-                  paddingY={"py-3"}
-                  marginY={"my-0"}
-                  onClick={handleReserve}
-                />
-              </div>
-            </Modal>
-          </div>
+            </div>
+          </Modal>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
