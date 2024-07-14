@@ -1,13 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import useKakao from "@/hooks/useKakao";
 import useAuthStore from "@/zustand/authStore";
+import useModalStore from "@/zustand/modalStore";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
-import useModalStore from "@/zustand/modalStore";
 
 const Header = () => {
   const router = useRouter();
@@ -42,6 +42,7 @@ const Header = () => {
     };
 
     checkAuthToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const Header = () => {
         setAuth(user);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
   return (
@@ -85,7 +87,7 @@ const Header = () => {
         width={0}
         height={0}
         sizes="100%"
-        className="w-full h-auto cursor-pointer"
+        className="w-full h-auto cursor-pointer relative -top-5 -z-10"
         src="/headerDeco.png"
         alt="headerDeco"
       />
