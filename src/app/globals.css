@@ -24,7 +24,7 @@
   input[type="password"],
   .truncate,
   .truncate-2 {
-    font-family: "TheJamsil5Bold";
+    @apply font-custom;
   }
 
   body {
@@ -33,6 +33,18 @@
 
   .vintage-img {
     filter: sepia(40%) saturate(140%);
+  }
+
+  .list::-webkit-scrollbar {
+    @apply w-1 rounded-md;
+  }
+
+  .list::-webkit-scrollbar-track {
+    @apply bg-[#ffffffaa];
+  }
+
+  .list::-webkit-scrollbar-thumb {
+    @apply bg-green;
   }
 
   .truncate-2 {

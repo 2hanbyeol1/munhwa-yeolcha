@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        custom: ["TheJamsil5Bold"]
+      },
       aspectRatio: {
         poster: "9 / 12"
       },

@@ -48,7 +48,7 @@ const MyTicketingListPage = () => {
   const sortTickets = (tickets: Tables<"reservation">[], sortOrder: string) => {
     return tickets?.slice().sort((reservation, day) => {
       if (sortOrder === "예약일 순") {
-        return new Date(reservation.created_at).getTime() - new Date(day.created_at).getTime();
+        return new Date(day.created_at).getTime() - new Date(reservation.created_at).getTime();
       } else if (sortOrder === "공연 날짜 순") {
         return new Date(reservation.date).getTime() - new Date(day.date).getTime();
       }
@@ -81,9 +81,7 @@ const MyTicketingListPage = () => {
   return (
     <div>
       <div className="flex justify-between gap-5 border-b border-black pb-2">
-        <span className="flex justify-center items-center w-[200px] h-[50px] font-bold text-green text-[30px]">
-          전체 예약 내역
-        </span>
+        <span className="flex justify-center items-center font-bold text-green text-2xl">전체 예약 내역</span>
         <select
           className="px-1 text-sm border rounded-md bg-white outline-none font-custom"
           onChange={handleSortChange}
@@ -93,7 +91,7 @@ const MyTicketingListPage = () => {
           <option>공연 날짜 순</option>
         </select>
       </div>
-      <div className="flex flex-col">
+      <div className="list flex flex-col overflow-x-hidden overflow-y-scroll h-[calc(100vh-15rem)] pr-3">
         {sortedTickets.length === 0 ? (
           <div className="flex justify-center items-center h-[100px] text-stone-500">예약 내역이 없습니다.</div>
         ) : (
@@ -101,15 +99,16 @@ const MyTicketingListPage = () => {
             <Link
               href={`/detail/${ticket.post_id}`}
               key={index}
-              className="grid grid-cols-[200px_1fr] items-center gap-7 p-[10px] border-black border-b"
+              className="grid grid-cols-[150px_1fr] items-center gap-7 px-3 py-1 border-black border-b bg-beige hover:brightness-95"
             >
-              <Image src={ticket.image_url} alt={ticket.title} width={200} height={200} />
-              <div className="flex flex-col w-full h-full justify-between">
+              <Image src={ticket.image_url} alt={ticket.title} width={150} height={150} />
+              <div className="flex flex-col w-full h-full justify-between py-5">
                 <div className="w-full">
-                  <div className="text-stone-500">[{ticket.post_id}]</div>
-                  <div className="font-bold w-full text-[25px] truncate font-custom">{ticket.title}</div>
-                  <div className={ticket.reserved ? "text-blue" : "text-red-500"}>
-                    {formatDate(ticket.date)} <span>{ticket.reserved ? "예약" : "취소"}</span>
+                  <div className="text-stone-500 mb-3">[{ticket.post_id}]</div>
+                  <div className="font-bold w-full text-2xl font-custom mb-1">{ticket.title}</div>
+                  <div className={`text-lg ${ticket.reserved ? "text-blue" : "text-red-500 line-through"}`}>
+                    <span className="mr-2">{formatDate(ticket.date)}</span>
+                    <span>{ticket.reserved ? "예약됨" : "취소 완료"}</span>
                   </div>
                 </div>
                 <div className="flex justify-between items-end">
@@ -118,7 +117,7 @@ const MyTicketingListPage = () => {
                       <Button onClick={(e) => handleCancelClick(e, ticket.post_id)} buttonName="예약 취소" />
                     )}
                   </div>
-                  <div className="text-xs text-stone-600">{formatDate(ticket.created_at)}</div>
+                  <div className="text-xs text-stone-600">{formatDate(ticket.created_at)} 예약</div>
                 </div>
               </div>
             </Link>
