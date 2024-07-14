@@ -79,7 +79,7 @@ const MyTicketingListPage = () => {
   };
 
   return (
-    <>
+    <div>
       <div className="flex justify-between gap-5 border-b border-black pb-2">
         <span className="flex justify-center items-center w-[200px] h-[50px] font-bold text-green text-[30px]">
           전체 예약 내역
@@ -93,7 +93,7 @@ const MyTicketingListPage = () => {
           <option>공연 날짜 순</option>
         </select>
       </div>
-      <div className="flex flex-col py-10">
+      <div className="flex flex-col">
         {sortedTickets.length === 0 ? (
           <div className="flex justify-center items-center h-[100px] text-stone-500">예약 내역이 없습니다.</div>
         ) : (
@@ -125,7 +125,7 @@ const MyTicketingListPage = () => {
           ))
         )}
       </div>
-    </>
+    </div>
   );
 };
 

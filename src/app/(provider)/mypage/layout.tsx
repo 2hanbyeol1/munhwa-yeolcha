@@ -8,7 +8,7 @@ const Layout = ({ children }: LayoutType) => {
   return (
     <div className="grid grid-cols-[10rem_1fr] gap-10">
       <SideBar />
-      <div className="w-full">{children}</div>
+      {children}
     </div>
   );
 };
