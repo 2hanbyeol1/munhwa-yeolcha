@@ -1,21 +1,18 @@
 "use client";
 
+import LoadingPage from "@/app/loading";
+import { PerformanceDetail } from "@/app/types/performance";
 import Button from "@/components/Button";
+import CountdownTimer from "@/components/CountdownTimer";
+import useAuthStore from "@/zustand/authStore";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { PerformanceDetail } from "@/app/types/performance";
-import { IoCalendarClearOutline } from "react-icons/io5";
-import { IoPersonOutline } from "react-icons/io5";
-import { IoIosTimer } from "react-icons/io";
-import { IoMapOutline } from "react-icons/io5";
-import { IoNotificationsOutline } from "react-icons/io5";
 import { GoHash } from "react-icons/go";
+import { IoIosTimer } from "react-icons/io";
+import { IoCalendarClearOutline, IoMapOutline, IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
 import { createClient } from "../../../../supabase/client";
-import LoadingPage from "@/app/loading";
-import useAuthStore from "@/zustand/authStore";
-import CountdownTimer from "@/components/CountdownTimer";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { userInfo } = useAuthStore();
@@ -76,6 +73,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
       const res = await axios.get(`/api/performance/${id}`);
       if (res) {
         setDatas(res.data.dbs.db[0]);
+        console.log(res.data.dbs.db[0]);
         if (userInfo) {
           getReserved(res.data.dbs.db[0]);
         }
@@ -110,6 +108,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   if (loading) {
@@ -118,54 +117,59 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
 
   return (
     <>
-      <div className="flex py-20">
-        {datas?.poster && <Image src={datas?.poster[0]} alt="" width={480} height={300} />}
-        <div className="flex flex-col justify-between ml-8">
-          <div className="w-[490px] h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail">
+      <div className="flex flex-col items-center gap-3 mb-10 md:flex-row">
+        {datas?.poster && (
+          <Image
+            className="max-h-[calc(100vh-12.5rem)] object-contain"
+            src={datas?.poster[0]}
+            alt={datas?.prfnm[0]}
+            width={480}
+            height={300}
+          />
+        )}
+        <div className="flex flex-col justify-between">
+          <div className="h-full p-8 py-11 border-4 border-solid border-coral rounded-2xl shadow-detail max-w-[480px]">
             <div className="flex flex-col justify-between h-full">
               <div>
-                <h2 className="text-4xl font-bold">{datas?.prfnm}</h2>
-                <ul className="mt-7 text-lg">
-                  <li className="flex alin mt-5">
-                    <IoCalendarClearOutline size={30} />
+                <h2 className="text-3xl font-bold truncate-2">{datas?.prfnm[0]}</h2>
+                <ul className="flex flex-col gap-3 mt-7 text-lg">
+                  <li className="flex items-center">
+                    <IoCalendarClearOutline size={25} />
                     <span className="ml-3">
-                      {datas?.prfpdfrom} - {datas?.prfpdto}
+                      {datas?.prfpdfrom[0]} - {datas?.prfpdto[0]}
                     </span>
                   </li>
-                  <li className="flex items-center mt-5">
-                    <IoMapOutline size={30} />
-                    <span className="ml-3">{datas?.fcltynm}</span>
+                  <li className="flex items-center">
+                    <IoMapOutline size={25} />
+                    <span className="ml-3">{datas?.fcltynm[0]}</span>
                   </li>
-                  <li className="flex items-center mt-5">
-                    <IoNotificationsOutline size={30} />
-                    <span className="ml-3">{datas?.prfage}</span>
+                  <li className="flex items-center">
+                    <IoNotificationsOutline size={25} />
+                    <span className="ml-3">{datas?.prfage[0]}</span>
                   </li>
-                  {datas?.prfruntime && datas.prfruntime.filter((item) => item.trim() !== "").length > 0 && (
-                    <li className="flex items-center mt-5">
-                      <IoIosTimer size={30} />
-                      <span className="ml-3">{datas.prfruntime.join(", ")}</span>
-                    </li>
-                  )}
-
-                  <li className="flex items-center mt-5">
-                    <IoPersonOutline size={30} />
-                    <span className="ml-3">{datas?.prfcast}</span>
+                  <li className="flex items-center">
+                    <IoIosTimer size={25} />
+                    <span className="ml-3">{datas?.prfruntime[0] === " " ? "-" : datas?.prfruntime[0]}</span>
                   </li>
-                  <li className="flex items-center mt-5">
-                    <GoHash size={30} />
-                    <span className="ml-3">{datas?.genrenm}</span>
+                  <li className="flex items-center overflow-auto">
+                    <IoPersonOutline size={25} />
+                    <span className="ml-3">{datas?.prfcast[0] === " " ? "-" : datas?.prfcast[0]}</span>
+                  </li>
+                  <li className="flex items-center">
+                    <GoHash size={25} />
+                    <span className="ml-3">{datas?.genrenm[0]}</span>
                   </li>
                 </ul>
               </div>
-              <div>
+              <div className="mt-7">
                 <CountdownTimer endDate={String(datas?.prfpdto[0])} />
               </div>
             </div>
           </div>
-          <div className="mt-7 text-center">
+          <div className="mt-7 flex">
             <Button
               buttonName={"뒤로가기"}
-              buttonWidth={"w-2/5"}
+              buttonWidth={"w-1/2"}
               bgColor={"bg-[#FFFFFF]"}
               textColor={"text-[#1A764F]"}
               paddingY={"py-3"}
@@ -175,7 +179,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
             {showButton ? (
               <Button
                 buttonName={reserved ? "예약 완료" : "예약하기"}
-                buttonWidth={"w-2/4"}
+                buttonWidth={"w-1/2"}
                 bgColor={reserved ? "bg-[#BBBBBB]" : "bg-[#1A764F]"}
                 paddingY={"py-3"}
                 marginY={"my-0"}
