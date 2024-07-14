@@ -1,9 +1,9 @@
 "use client";
 
-import { PerformanceDetail } from "@/app/types/performance";
 import Button from "@/components/Button";
 import CountdownTimer from "@/components/CountdownTimer";
 import Modal from "@/components/Modal";
+import { PerformanceDetailType } from "@/types/performance";
 import useAuthStore from "@/zustand/authStore";
 import useModalStore from "@/zustand/modalStore";
 import axios from "axios";
@@ -19,7 +19,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   const { userInfo } = useAuthStore();
   const { toggleModal } = useModalStore();
   const { id } = params;
-  const [datas, setDatas] = useState<PerformanceDetail>();
+  const [datas, setDatas] = useState<PerformanceDetailType>();
   const [loading, setLoading] = useState(true);
   const [reserved, setReserved] = useState(false);
   const [buttonText, setButtonText] = useState("예약하기");
@@ -85,7 +85,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
       setLoading(false);
     };
 
-    const getReserved = async (datas: PerformanceDetail) => {
+    const getReserved = async (datas: PerformanceDetailType) => {
       const { data: reserved } = await supabase
         .from("reservation")
         .select()
