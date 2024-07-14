@@ -16,9 +16,13 @@ import { createClient } from "../../../../supabase/client";
 import LoadingPage from "@/app/loading";
 import useAuthStore from "@/zustand/authStore";
 import CountdownTimer from "@/components/CountdownTimer";
+import Modal from "@/components/Modal";
+import useModalStore from "@/zustand/modalStore";
+import Input from "@/components/Input";
 
 const DetailPage = ({ params }: { params: { id: number } }) => {
   const { userInfo } = useAuthStore();
+  const { toggleModal } = useModalStore();
   const { id } = params;
   const [datas, setDatas] = useState<PerformanceDetail>();
   const [loading, setLoading] = useState(true);
@@ -27,6 +31,8 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
   const supabase = createClient();
   const [showButton, setShowButton] = useState(true);
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const today = new Date().toISOString().split("T")[0];
 
   const handleReserve = () => {
     const createPost = async () => {
@@ -59,6 +65,7 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
             console.log("insertError", insertError);
           } else {
             alert("예약 완료되었걸랑요");
+            toggleModal("reserve");
             setReserved(true);
           }
         }
@@ -112,9 +119,23 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
     fetchData();
   }, [userInfo]);
 
-  if (loading) {
-    return <LoadingPage />;
-  }
+  const handleReserveModal = () => {
+    const createPost2 = async () => {
+      const { data: confirm, error: checkError } = await supabase
+        .from("reservation")
+        .select()
+        .eq("user_id", userInfo?.id as string)
+        .eq("post_id", datas?.mt20id[0] as string)
+        .eq("reserved", true)
+        .single();
+      if (confirm) {
+        alert("이미 예약 완료된 공연이걸랑요");
+      } else {
+        toggleModal("reserve");
+      }
+    };
+    createPost2();
+  };
 
   return (
     <>
@@ -179,13 +200,33 @@ const DetailPage = ({ params }: { params: { id: number } }) => {
                 bgColor={reserved ? "bg-[#BBBBBB]" : "bg-[#1A764F]"}
                 paddingY={"py-3"}
                 marginY={"my-0"}
-                onClick={handleReserve}
+                onClick={handleReserveModal}
                 opacity={reserved ? "opacity-70" : "opacity-100"}
                 hover={reserved ? false : true}
               />
             ) : (
               ""
             )}
+            <Modal id="reserve">
+              <div className="flex flex-col p-10 justify-center items-center">
+                <p className="mb-4 text-3xl">공연일</p>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  min={today}
+                  max={datas?.prfpdto[0].replaceAll(".", "-")}
+                  className="bg-transparent border border-gray-300 rounded px-2 py-1 mb-4"
+                />
+                <Button
+                  buttonName={"예약하기"}
+                  buttonWidth={"w-2/4"}
+                  paddingY={"py-3"}
+                  marginY={"my-0"}
+                  onClick={handleReserve}
+                />
+              </div>
+            </Modal>
           </div>
         </div>
       </div>
