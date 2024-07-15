@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,23 +22,14 @@ const SignUpPage = () => {
     const data = { email, password };
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/sign-up", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+      const response = await axios.post("/api/auth/sign-up", JSON.stringify(data));
 
       if (response.status === 200) {
         alert("맴바등록이 완료되었습니다.");
         router.push("/login");
-      } else {
-        const errorData = await response.json();
-        alert("멤바등록 실패");
       }
     } catch (error) {
-      alert("알 수 없는 오류가 발생하였습니다. 다시 시도해 주세요.");
+      alert("멤버 등록 오류 발생 : " + error);
     }
   };
 

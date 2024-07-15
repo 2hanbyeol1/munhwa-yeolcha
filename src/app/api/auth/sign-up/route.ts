@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(user);
     return NextResponse.json(user);
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 400 });

@@ -4,6 +4,8 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import { parseString } from "xml2js";
 
+export const maxDuration = 25;
+
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams;
   const page = searchParams.get("page") as string;

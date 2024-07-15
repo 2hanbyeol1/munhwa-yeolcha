@@ -2,6 +2,7 @@
 
 import useKakao from "@/hooks/useKakao";
 import useAuthStore from "@/zustand/authStore";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -26,21 +27,10 @@ const LoginPage = () => {
     const data = { email, password };
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/log-in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "로그인 도중 오류가 발생했습니다.");
-      }
+      const response = await axios.post("/api/auth/log-in", JSON.stringify(data));
 
       if (response.status === 200) {
-        const userData = await response.json();
+        const userData = await response.data;
         setProvider(userData.app_metadata.provider); // user의 provider저장
         router.push("/");
       }

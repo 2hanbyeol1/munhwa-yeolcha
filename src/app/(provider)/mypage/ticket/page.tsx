@@ -80,7 +80,7 @@ const MyTicketingListPage = () => {
 
   return (
     <div>
-      <div className="flex justify-between gap-5 border-b border-black pb-2">
+      <div className="flex justify-between gap-5 border-b border-black pb-2 pt-2">
         <span className="flex justify-center items-center font-bold text-green text-2xl">전체 예약 내역</span>
         <select
           className="px-1 text-sm border rounded-md bg-white outline-none font-custom"
