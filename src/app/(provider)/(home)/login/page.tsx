@@ -28,7 +28,6 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post("/api/auth/log-in", JSON.stringify(data));
-      console.log(response);
 
       if (response.status === 200) {
         const userData = await response.data;

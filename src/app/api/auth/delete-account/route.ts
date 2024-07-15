@@ -19,7 +19,6 @@ export async function DELETE(request: NextRequest) {
       console.error(error);
       return NextResponse.json({ message: "회원탈퇴 실패: " + error.message }, { status: 500 });
     }
-    console.log("계적삭제됨", data);
 
     const { error: signOutError } = await supabase.auth.signOut();
     if (signOutError) {
