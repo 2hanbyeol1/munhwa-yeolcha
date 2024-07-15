@@ -83,14 +83,7 @@ const Header = () => {
           <Button buttonName={"접속하기"} onClick={handleGoLoginClick} />
         )}
       </div>
-      <Image
-        width={0}
-        height={0}
-        sizes="100%"
-        className="w-full h-auto cursor-pointer relative -top-5 -z-10"
-        src="/headerDeco.png"
-        alt="headerDeco"
-      />
+      <Image width={0} height={0} sizes="100%" className="w-full h-10 -z-10" src="/headerDeco.png" alt="headerDeco" />
     </header>
   );
 };
