@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
 import { createClient } from "@/supabase/client";
-import { useRouter } from "next/navigation";
 import useAuthStore from "@/zustand/authStore";
+import { useRouter } from "next/navigation";
 
 const useKakao = () => {
   const supabase = createClient();
@@ -16,7 +15,7 @@ const useKakao = () => {
       provider: "kakao",
       options: {
         queryParams: { access_type: "offline", prompt: "select_account" },
-        redirectTo: `http://localhost:3000/api/auth/callback/`
+        redirectTo: `/api/auth/callback/`
       }
     });
   };
