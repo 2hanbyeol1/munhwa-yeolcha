@@ -3,6 +3,7 @@
 import useKakao from "@/hooks/useKakao";
 import useAuthStore from "@/zustand/authStore";
 import useModalStore from "@/zustand/modalStore";
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -46,11 +47,9 @@ const Header = () => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/auth/me").then(async (response) => {
+    axios.get("/api/auth/me").then(async (response) => {
       if (response.status === 200) {
-        const {
-          data: { user }
-        } = await response.json();
+        const user = response.data.data.user;
         setAuth(user);
       }
     });
