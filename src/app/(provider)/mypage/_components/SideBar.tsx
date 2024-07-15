@@ -1,5 +1,6 @@
 "use client";
 import useAuthStore from "@/zustand/authStore";
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,14 +18,17 @@ const SideBar = () => {
 
   useEffect(() => {
     if (!provider) {
-      fetch("http://localhost:3000/api/auth/me").then(async (response) => {
-        if (response.status === 200) {
-          const {
-            data: { user }
-          } = await response.json();
-          setFlagProvider(user.app_metadata.provider);
-        }
-      });
+      axios
+        .get("/api/auth/me")
+        .then(async (response) => {
+          if (response.data?.error) {
+            alert("로그인 정보에 문제가 있습니다. 로그인 페이지로 이동합니다.");
+            router.push("/login");
+          } else if (response.status === 200) {
+            setFlagProvider(response?.data?.app_metadata?.provider);
+          }
+        })
+        .catch((error) => console.log("error : ", error));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
