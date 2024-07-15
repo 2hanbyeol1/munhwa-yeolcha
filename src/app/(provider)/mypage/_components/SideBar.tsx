@@ -39,19 +39,12 @@ const SideBar = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/delete-account", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (response.ok) {
+      const response = await axios.delete("/api/auth/delete-account");
+      if (response.status === 200) {
         alert("회원탈퇴 되었습니다.");
         router.push("/");
       } else {
-        const { message } = await response.json();
-        alert(`회원탈퇴 실패: ${message}`);
+        throw new Error(`회원탈퇴 실패: ${response.data.message}`);
       }
     } catch (error) {
       alert("회원탈퇴 도중 에러가 생겼습니다.");
