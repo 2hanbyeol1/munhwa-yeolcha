@@ -1,25 +1,27 @@
 import axios from "axios";
-import xml2js from "xml2js";
+import { NextResponse } from "next/server";
+import { parseString } from "xml2js";
 
 export const GET = async (request: Request, { params }: { params: { id: number } }) => {
   const { id } = params;
   const key = process.env.NEXT_PUBLIC_ARTS_KEY;
+  let jsonData = "";
 
-  const response = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${id}?service=${key}&newsql=Y`);
-  const xmlData = response.data;
+  try {
+    const response = await axios.get(`http://www.kopis.or.kr/openApi/restful/pblprfr/${id}?service=${key}&newsql=Y`);
+    const xmlData = response.data;
 
-  return new Promise((resolve, reject) => {
-    xml2js.parseString(xmlData, (err, result) => {
+    parseString(xmlData, (err, parseData) => {
       if (err) {
-        throw new Error("Error parsing XML");
-      } else {
-        resolve(
-          new Response(JSON.stringify(result), {
-            status: 200,
-            headers: { "Content-Type": "application/json" }
-          })
-        );
+        console.error(err);
+        throw new Error();
       }
+      jsonData = parseData;
     });
-  });
+    return NextResponse.json(jsonData);
+  } catch (error) {
+    return NextResponse.json({
+      error: "공연 상세 정보를 불러오는데 실패했단다!"
+    });
+  }
 };

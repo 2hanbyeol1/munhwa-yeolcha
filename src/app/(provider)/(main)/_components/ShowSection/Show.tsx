@@ -30,10 +30,8 @@ const Show = ({ performance }: ShowType) => {
         />
       </div>
       <div className="flex flex-col gap-2 w-full h-36 p-7 bg-white shadow-md">
-        <span className="text-lg overflow-hidden whitespace-nowrap text-ellipsis">{performance.name}</span>
-        <span className="text-sm text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis">
-          {performance.place}
-        </span>
+        <span className="text-lg truncate font-custom">{performance.name}</span>
+        <span className="text-sm text-gray-700 truncate">{performance.place}</span>
         <span className="text-xs">
           {performance.duration[0]} - {performance.duration[1]}
         </span>

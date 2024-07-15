@@ -1,4 +1,4 @@
-import TicketList from "@/components/TicketList";
+import SideBar from "./_components/SideBar";
 
 interface LayoutType {
   children: React.ReactNode;
@@ -6,11 +6,9 @@ interface LayoutType {
 
 const Layout = ({ children }: LayoutType) => {
   return (
-    <div className="flex w-[580px]">
-      <div className="grid grid-cols-2">
-        <TicketList />
-        <div className="w-[600px]">{children}</div>
-      </div>
+    <div className="grid grid-cols-[10rem_1fr] gap-10">
+      <SideBar />
+      {children}
     </div>
   );
 };

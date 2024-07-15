@@ -1,6 +1,5 @@
 "use client";
 
-// components/CountdownTimer.tsx
 import { useEffect, useState } from "react";
 
 interface CountdownTimerProps {
@@ -46,6 +45,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endDate }) => {
     }, 1000);
 
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft]);
 
   const Skeleton = () => (
@@ -59,7 +59,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ endDate }) => {
   return isLoading ? (
     <Skeleton />
   ) : (
-    <div className="flex space-x-4 text-xl justify-center p-1 bg-dark-red text-white rounded-lg shadow-lg">
+    <div className="flex flex-wrap gap-x-1 text-lg justify-center p-1 bg-dark-red text-white rounded-lg shadow-lg">
       {isTimeLeftZero ? (
         <div className="p-2 rounded-md shadow-inner">공 연 마 감</div>
       ) : (

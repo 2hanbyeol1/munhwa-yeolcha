@@ -29,7 +29,7 @@ const EditProfileForm: React.FC = () => {
   };
 
   return (
-    <form className="ml-8 mr-8 space-y-4">
+    <form className="mx-auto space-y-4 w-full max-w-[500px]">
       <div className="flex">
         <label className="bg-green text-white text-center py-2 px-2 w-36 h-9 text-sm rounded-l-md">새 비밀번호</label>
         <input

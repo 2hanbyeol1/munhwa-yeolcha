@@ -1,11 +1,11 @@
 "use client";
+import Button from "@/components/Button";
 import { createClient } from "@/supabase/client";
 import useAuthStore from "@/zustand/authStore";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { Tables } from "../../../../../types/supabase";
-import Button from "@/components/Button";
 
 const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -38,6 +38,7 @@ const MyTicketingListPage = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userInfo]);
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,7 +48,7 @@ const MyTicketingListPage = () => {
   const sortTickets = (tickets: Tables<"reservation">[], sortOrder: string) => {
     return tickets?.slice().sort((reservation, day) => {
       if (sortOrder === "예약일 순") {
-        return new Date(reservation.created_at).getTime() - new Date(day.created_at).getTime();
+        return new Date(day.created_at).getTime() - new Date(reservation.created_at).getTime();
       } else if (sortOrder === "공연 날짜 순") {
         return new Date(reservation.date).getTime() - new Date(day.date).getTime();
       }
@@ -57,8 +58,12 @@ const MyTicketingListPage = () => {
 
   const sortedTickets = sortTickets(tickets, sortOrder);
 
-  const handleCancelClick = async (postId: string) => {
+  const handleCancelClick = async (e: MouseEvent<HTMLButtonElement>, postId: string) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (!userInfo) return;
+    const ok = confirm(postId + " 예약을 취소하시겠습니까?");
+    if (!ok) return;
     const { data, error } = await supabase
       .from("reservation")
       .update({ reserved: false })
@@ -74,52 +79,52 @@ const MyTicketingListPage = () => {
   };
 
   return (
-    <>
-      <span>
-        <div className="flex justify-between gap-5 py-[10px] border-b border-black">
-          <span className="flex justify-center items-center w-[200px] h-[50px] font-bold text-green text-[30px]">
-            전체 예약 내역
-          </span>
-          <select className="border rounded-md bg-white font-custom" onChange={handleSortChange} value={sortOrder}>
-            <option>예약일 순</option>
-            <option>공연 날짜 순</option>
-          </select>
-        </div>
-      </span>
-      <div>
+    <div>
+      <div className="flex justify-between gap-5 border-b border-black pb-2">
+        <span className="flex justify-center items-center font-bold text-green text-2xl">전체 예약 내역</span>
+        <select
+          className="px-1 text-sm border rounded-md bg-white outline-none font-custom"
+          onChange={handleSortChange}
+          value={sortOrder}
+        >
+          <option>예약일 순</option>
+          <option>공연 날짜 순</option>
+        </select>
+      </div>
+      <div className="list flex flex-col overflow-x-hidden overflow-y-scroll h-[calc(100vh-15rem)] pr-3">
         {sortedTickets.length === 0 ? (
-          <div className="flex justify-center items-center h-[100px] text-gray-500">예약 내역이 없습니다.</div>
+          <div className="flex justify-center items-center h-[100px] text-stone-500">예약 내역이 없습니다.</div>
         ) : (
-          <div className="flex flex-col">
-            {sortedTickets?.map((ticket, index) => (
-              <div key={index} className="flex items-center p-[10px] border-black border-b">
-                <div>
-                  <div>
-                    <div>공연 날짜 : {formatDate(ticket.date)}</div>
-                    <div className="text-[10px] text-[gray] pt-2 pb-3">예약번호:{ticket.post_id}</div>
+          sortedTickets?.map((ticket, index) => (
+            <Link
+              href={`/detail/${ticket.post_id}`}
+              key={index}
+              className="grid grid-cols-[150px_1fr] items-center gap-7 px-3 py-1 border-black border-b bg-beige hover:brightness-95"
+            >
+              <Image src={ticket.image_url} alt={ticket.title} width={150} height={150} />
+              <div className="flex flex-col w-full h-full justify-between py-5">
+                <div className="w-full">
+                  <div className="text-stone-500 mb-3">[{ticket.post_id}]</div>
+                  <div className="font-bold w-full text-2xl font-custom mb-1">{ticket.title}</div>
+                  <div className={`text-lg ${ticket.reserved ? "text-blue" : "text-red-500 line-through"}`}>
+                    <span className="mr-2">{formatDate(ticket.date)}</span>
+                    <span>{ticket.reserved ? "예약됨" : "취소 완료"}</span>
                   </div>
-                  <Link href={`/detail/${ticket.post_id}`}>
-                    <Image src={ticket.image_url} alt={ticket.title} width={100} height={100} />
-                  </Link>
                 </div>
-                <div className="flex flex-col ml-4">
-                  <div className="font-bold pb-[10px] text-[25px] truncate max-w-xs font-custom">{ticket.title}</div>
-                  <div className="text-[10px] text-[gray] pb-1">예약 날짜 : {formatDate(ticket.created_at)}</div>
-                  <div className={ticket.reserved ? "text-blue" : "text-red-500"}>
-                    {ticket.reserved ? "예약되었습니다." : "취소되었습니다."}
+                <div className="flex justify-between items-end">
+                  <div>
                     {ticket.reserved && (
-                      <div>
-                        <Button onClick={() => handleCancelClick(ticket.post_id)} buttonName="예약 취소" />
-                      </div>
+                      <Button onClick={(e) => handleCancelClick(e, ticket.post_id)} buttonName="예약 취소" />
                     )}
                   </div>
+                  <div className="text-xs text-stone-600">{formatDate(ticket.created_at)} 예약</div>
                 </div>
               </div>
-            ))}
-          </div>
+            </Link>
+          ))
         )}
       </div>
-    </>
+    </div>
   );
 };
 
